@@ -4,6 +4,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "@fontsource/raleway/400.css";
+import "@fontsource/oswald/700.css";
 
 import { ChakraProvider } from "@chakra-ui/react";
 

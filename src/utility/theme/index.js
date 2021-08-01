@@ -12,4 +12,8 @@ export const Colors = {
 
 export const theme = extendTheme({
   colors: Colors,
+  fonts: {
+    heading: "Oswald",
+    body: "Raleway",
+  },
 });
