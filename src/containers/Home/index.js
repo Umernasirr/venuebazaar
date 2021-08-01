@@ -1,7 +1,8 @@
-import { Flex } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/react";
 import React from "react";
 import Header from "../../components/Header";
 import SubHeader from "../../components/SubHeader";
+import SectionCarousel from "./SectionCarousel";
 
 const Home = () => {
   return (
@@ -9,6 +10,8 @@ const Home = () => {
       <Header />
 
       <SubHeader />
+
+      <SectionCarousel />
     </Flex>
   );
 };
