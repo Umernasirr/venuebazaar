@@ -11,10 +11,16 @@ import {
 const Footer = () => {
   return (
     <Flex w="full" bg="blackAlpha.800" align="center" py={12}>
-      <Box w="full" mx={32}>
-        <Flex w="full" justify="space-between" color="white" textAlign="center">
+      <Box w="full" mx={{ base: 8, md: 32 }}>
+        <Flex
+          w="full"
+          justify="space-between"
+          color="white"
+          textAlign="center"
+          direction={["column", "row"]}
+        >
           <Box>
-            <Text fontWeight="semibold" fontSize={24}>
+            <Text fontWeight="semibold" fontSize={{ base: 20, md: 24 }}>
               BookNEvent
             </Text>
             <Box my={2} />
@@ -30,7 +36,7 @@ const Footer = () => {
               <AiOutlineTwitter size={24} />
             </Flex>
           </Box>
-          <Box>
+          <Box display={{ base: "none", xl: "block" }}>
             <SimpleGrid columns={5} spacing={4} textAlign="left">
               <Text fontWeight="semibold">Wedding Spot</Text>
               <Text fontWeight="semibold">Services</Text>
@@ -58,8 +64,12 @@ const Footer = () => {
               <Text></Text>
             </SimpleGrid>
           </Box>
-          <Flex direction="column" align="flex-start">
-            <Text fontWeight="semibold" fontSize={24}>
+          <Flex
+            direction="column"
+            align={["center", "flex-start"]}
+            mt={{ base: 8, sm: 0 }}
+          >
+            <Text fontWeight="semibold" fontSize={{ base: 20, md: 24 }}>
               Contact Us
             </Text>
             <Box my={2} />
