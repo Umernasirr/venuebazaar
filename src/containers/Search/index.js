@@ -1,7 +1,10 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
+import { VENUES } from "../../constants";
+import SearchItem from "./SearchItem";
 
 const Search = (match, location) => {
   const { search } = useLocation();
@@ -25,6 +28,15 @@ const Search = (match, location) => {
       </Flex>
 
       <Box mt={4} />
+
+      <Box mx={16}>
+        {VENUES.map((venue) => (
+          <SearchItem {...venue} />
+        ))}
+      </Box>
+
+      <Box my={4} />
+      <Footer />
     </Flex>
   );
 };
