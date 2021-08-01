@@ -1,5 +1,5 @@
 import { Flex, Text, Button } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import {
   AiOutlineLogin,
   AiOutlineNotification,
@@ -8,8 +8,11 @@ import {
   IoLocationOutline,
   MdLocationCity,
 } from "react-icons/all";
+import LoginModal from "./LoginModal";
 
 const Header = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
   return (
     <Flex w="full" h="80px" bg="gray.100" justify="space-between">
       <Flex align="center" px={4}>
@@ -18,7 +21,7 @@ const Header = () => {
           variant="link"
           color="black"
           mx={4}
-          fontSize={30}
+          fontSize={{ base: 30, md: 42 }}
           fontWeight="bold"
           fontStyle="italic"
         >
@@ -35,11 +38,13 @@ const Header = () => {
           p={0}
           fontSize={18}
           leftIcon={<AiOutlineLogin />}
+          onClick={() => setIsLoginOpen(!isLoginOpen)}
         >
           Login
         </Button>
 
         <Button
+          display={{ base: "none", md: "inline-block" }}
           _hover={{ outline: "none", color: "brand.600" }}
           variant="link"
           color="black"
@@ -52,6 +57,7 @@ const Header = () => {
         </Button>
 
         <Button
+          display={{ base: "none", md: "inline-block" }}
           _hover={{ outline: "none", color: "brand.600" }}
           variant="link"
           color="black"
@@ -63,6 +69,10 @@ const Header = () => {
           Location
         </Button>
       </Flex>
+
+      {/* Login Modal */}
+
+      <LoginModal isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
     </Flex>
   );
 };

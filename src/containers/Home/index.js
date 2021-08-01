@@ -1,6 +1,15 @@
-import { Flex, Stack, Box, Text, Icon, Divider } from "@chakra-ui/react";
+import {
+  Flex,
+  Stack,
+  Box,
+  Text,
+  Icon,
+  Divider,
+  Spacer,
+} from "@chakra-ui/react";
 import { FiSearch } from "react-icons/all";
 import React from "react";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import SubHeader from "../../components/SubHeader";
 import SectionCarousel from "./SectionCarousel";
@@ -16,6 +25,8 @@ const Home = () => {
       <SectionVenue title="Venue" />
       <SectionVenue title="Event Planner" />
       <SectionVenue title="Catering" />
+      <Spacer />
+      <Footer />
     </Flex>
   );
 };
