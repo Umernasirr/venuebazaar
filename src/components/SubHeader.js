@@ -1,4 +1,4 @@
-import { Flex, Text, Button, Box, Stack } from "@chakra-ui/react";
+import { Flex, Button, Box, Stack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/all";
 

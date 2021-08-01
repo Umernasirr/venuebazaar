@@ -1,6 +1,6 @@
-import { Flex } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import SectionCarousel from "../../components/SectionCarousel";
 
 const Search = (match, location) => {
@@ -15,6 +15,16 @@ const Search = (match, location) => {
   return (
     <Flex w="full" h="full" direction="column">
       <SectionCarousel />
+
+      <Box my={4} />
+
+      <Flex align="center" justify="center">
+        <Text fontSize="3xl" fontWeight="bold">
+          Search Result
+        </Text>
+      </Flex>
+
+      <Box mt={4} />
     </Flex>
   );
 };

@@ -88,3 +88,17 @@ export const VENUE_CONTENT2 = [
     alt: "venue",
   },
 ];
+
+export const VENUES = [
+  {
+    id: 1,
+    name: "Medallion Banquet",
+    address: "Block 10, Gulshan-e-Iqbal, Rashid Minhas Road.",
+    price: "454 - 565",
+    description: "What a Garden...",
+    seating: 500,
+    type: "Banquet",
+    features: ["Projector", "Waitress", "Special Light", "Air – Condition"],
+    bookings: [],
+  },
+];

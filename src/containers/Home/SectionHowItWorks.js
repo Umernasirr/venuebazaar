@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Stack, Box, Text, Icon, Divider } from "@chakra-ui/react";
+import { Stack, Box, Text, Icon } from "@chakra-ui/react";
 import { HOW_IT_WORKS_CONTENT } from "../../constants";
 
 const SectionHowItWorks = () => {

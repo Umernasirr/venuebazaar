@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Box, SimpleGrid, Stack, Text, Image, Flex } from "@chakra-ui/react";
+import React from "react";
+import { Box, SimpleGrid, Stack, Text, Flex } from "@chakra-ui/react";
 import { VENUE_CONTENT2 } from "../../constants";
 
 const SectionEventPlanner = (props) => {
   return (
-    <React.Fragment >
+    <React.Fragment>
       <Text
         align="center"
         fontWeight="bold"

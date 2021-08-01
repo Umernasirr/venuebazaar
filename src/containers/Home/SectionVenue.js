@@ -9,14 +9,14 @@ const SectionVenue = (props) => {
         align="center"
         fontWeight="bold"
         fontSize="3xl"
-        px={[15, , 15, 20, 20]}
+        px={[15, 15, 20, 20]}
         color="purple.600"
       >
         {props.title}
       </Text>
       <SimpleGrid
         columns={[1, 1, 2, 2]}
-        px={[15, , 15, 20, 20]}
+        px={[15, 15, 20, 20]}
         py={5}
         spacing={5}
       >

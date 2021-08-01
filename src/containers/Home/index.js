@@ -1,17 +1,6 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  Stack,
-  Box,
-  Text,
-  Icon,
-  Divider,
-  Spacer,
-} from "@chakra-ui/react";
-import { FiSearch } from "react-icons/all";
+import React from "react";
+import { Flex, Box, Spacer } from "@chakra-ui/react";
 import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import SubHeader from "../../components/SubHeader";
 import SectionCarousel from "../../components/SectionCarousel";
 import SectionHowItWorks from "./SectionHowItWorks";
 import SectionVenue from "./SectionVenue";
