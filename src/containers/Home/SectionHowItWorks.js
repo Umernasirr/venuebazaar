@@ -9,8 +9,8 @@ const SectionHowItWorks = () => {
         align="center"
         fontWeight="bold"
         fontSize="3xl"
-        px={[15, , 15, 20, 20]}
-        py={[10, 20, 20, 20]}
+        px={[15, 15, 20, 20]}
+        py={[10, 10, 10, 10]}
       >
         How It Works
       </Text>

@@ -89,7 +89,7 @@ const Footer = () => {
               leftIcon={<AiOutlinePhone size={24} />}
               variant="link"
             >
-              9439439493
+              0939349344
             </Button>
           </Flex>
         </Flex>

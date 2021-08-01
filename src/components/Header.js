@@ -9,21 +9,21 @@ import {
   MdLocationCity,
 } from "react-icons/all";
 import LoginModal from "./LoginModal";
+import JoinModal from "./JoinModal";
 
-const Header = () => {
+const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <Flex w="full" h="80px" bg="gray.100" justify="space-between">
-      <Flex align="center" px={4}>
+    <Flex w="full" px={3} bg="gray.100" justify="space-between">
+      <Flex align="center" p={4}>
         <Button
           _hover={{ outline: "none", color: "brand.600" }}
           variant="link"
           color="black"
           mx={4}
-          fontSize={{ base: 30, md: 42 }}
+          fontSize={{ base: 18, md: 24 }}
           fontWeight="bold"
-          fontStyle="italic"
         >
           BookNEvent
         </Button>
@@ -36,7 +36,7 @@ const Header = () => {
           color="black"
           mx={4}
           p={0}
-          fontSize={18}
+          fontSize={16}
           leftIcon={<AiOutlineLogin />}
           onClick={() => setIsLoginOpen(!isLoginOpen)}
         >
@@ -50,7 +50,7 @@ const Header = () => {
           color="black"
           mx={4}
           p={0}
-          fontSize={18}
+          fontSize={16}
           leftIcon={<AiOutlinePhone />}
         >
           0939349344
@@ -63,7 +63,7 @@ const Header = () => {
           color="black"
           mx={4}
           p={0}
-          fontSize={18}
+          fontSize={16}
           leftIcon={<IoLocationOutline />}
         >
           Location
@@ -73,6 +73,11 @@ const Header = () => {
       {/* Login Modal */}
 
       <LoginModal isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
+      <JoinModal
+        isJoinOpen={isJoinOpen}
+        setIsJoinOpen={setIsJoinOpen}
+        role={role}
+      />
     </Flex>
   );
 };

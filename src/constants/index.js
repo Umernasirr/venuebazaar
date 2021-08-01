@@ -64,3 +64,27 @@ export const VENUE_CONTENT = [
     alt: "venue",
   },
 ];
+
+export const VENUE_CONTENT2 = [
+  {
+    id: 0,
+    title: "BookEventz Flagship",
+    description: "Fully managed venues",
+    url: "https://www.thefifthatrockwell.com/wp-content/uploads/2020/04/7th-Birthday-Party-_-March-9-2019-1.jpg",
+    alt: "venue",
+  },
+  {
+    id: 1,
+    title: "BookEventz Flagship",
+    description: "Fully managed venues",
+    url: "https://thefifthatrockwell.com/wp-content/uploads/2020/04/7th-Birthday-Party-_-November-17-2018-1.jpg",
+    alt: "venue",
+  },
+  {
+    id: 2,
+    title: "BookEventz Flagship",
+    description: "Fully managed venues",
+    url: "https://thefifthatrockwell.com/wp-content/uploads/2020/04/7th-Birthday-Party-_-November-17-2018.2-1.jpg",
+    alt: "venue",
+  },
+];

@@ -2,8 +2,9 @@ import { Flex, Text, Button, Box, Stack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/all";
 
-const SubHeader = () => {
+const SubHeader = ({ setIsJoinOpen, setRole }) => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Flex
       as="nav"
@@ -11,7 +12,7 @@ const SubHeader = () => {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      p={6}
+      p={4}
       bg="brand.600"
     >
       <Box
@@ -36,14 +37,15 @@ const SubHeader = () => {
           justify={["center", "center", "flex-start", "flex-start"]}
           direction={["column", "column", "row", "row"]}
           pt={[4, 4, 0, 0]}
+          mx={4}
         >
           <Button
             _hover={{ outline: "none", color: "brand.100" }}
             variant="link"
             color="white"
-            mx={4}
-            fontSize={20}
-            fontWeight="semibold"
+            mx={2}
+            fontSize={18}
+            fontWeight="normal"
           >
             Venue
           </Button>
@@ -51,9 +53,9 @@ const SubHeader = () => {
             _hover={{ outline: "none", color: "brand.100" }}
             variant="link"
             color="white"
-            mx={4}
-            fontSize={20}
-            fontWeight="semibold"
+            mx={2}
+            fontSize={18}
+            fontWeight="normal"
           >
             Ideas
           </Button>
@@ -61,9 +63,9 @@ const SubHeader = () => {
             _hover={{ outline: "none", color: "brand.100" }}
             variant="link"
             color="white"
-            mx={4}
-            fontSize={20}
-            fontWeight="semibold"
+            mx={2}
+            fontSize={18}
+            fontWeight="normal"
           >
             Deals
           </Button>
@@ -71,9 +73,9 @@ const SubHeader = () => {
             _hover={{ outline: "none", color: "brand.100" }}
             variant="link"
             color="white"
-            mx={4}
-            fontSize={20}
-            fontWeight="semibold"
+            mx={2}
+            fontSize={18}
+            fontWeight="normal"
           >
             Corporate
           </Button>
@@ -81,9 +83,9 @@ const SubHeader = () => {
             _hover={{ outline: "none", color: "brand.100" }}
             variant="link"
             color="white"
-            mx={4}
-            fontSize={20}
-            fontWeight="semibold"
+            mx={2}
+            fontSize={18}
+            fontWeight="normal"
           >
             Bazaar
           </Button>
@@ -97,8 +99,12 @@ const SubHeader = () => {
             variant="link"
             color="white"
             mx={2}
-            fontSize={{ base: 16, md: 20 }}
+            fontSize={{ base: 16, md: 18 }}
             fontWeight="normal"
+            onClick={() => {
+              setIsJoinOpen(true);
+              setRole("Vendor");
+            }}
           >
             Join as a Vendor
           </Button>
@@ -107,8 +113,12 @@ const SubHeader = () => {
             variant="link"
             color="white"
             mx={2}
-            fontSize={{ base: 16, md: 20 }}
+            fontSize={{ base: 16, md: 18 }}
             fontWeight="normal"
+            onClick={() => {
+              setIsJoinOpen(true);
+              setRole("User");
+            }}
           >
             Join as a User
           </Button>

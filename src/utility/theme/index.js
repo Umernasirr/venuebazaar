@@ -13,7 +13,18 @@ export const Colors = {
 export const theme = extendTheme({
   colors: Colors,
   fonts: {
-    heading: "Oswald",
-    body: "Raleway",
+    heading: "Roboto",
+    body: "Roboto",
+  },
+  textStyles: {
+    body: {
+      fontFamily: "Roboto",
+    },
+    heading: {
+      fontFamily: "Roboto",
+    },
+    mono: {
+      fontFamily: "Roboto",
+    },
   },
 });

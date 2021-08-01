@@ -23,14 +23,6 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
     password: "",
   });
 
-  const handleChangeEmail = (value) => {
-    setUser({ ...user, email: value });
-  };
-
-  const handleChangePassword = (value) => {
-    setUser({ ...user, password: value });
-  };
-
   const handleValidation = () => {
     let isValid = true;
 
@@ -66,7 +58,7 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
             <FormLabel>Email address</FormLabel>
             <Input
               type="email"
-              onChange={(e) => handleChangeEmail(e.target.value)}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
             <FormHelperText color="red">{errEmail}</FormHelperText>
           </FormControl>
@@ -76,24 +68,22 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
             <Input
               type="text"
               type={showPassword ? "text" : "password"}
-              onChange={(e) => handleChangePassword(e.target.value)}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
             <FormHelperText color="red">{errPassword}</FormHelperText>
           </FormControl>
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            colorScheme="blue"
-            mr={3}
-            onClick={() => setIsLoginOpen(false)}
-          >
+          <Button mr={3} px={8} onClick={() => setIsLoginOpen(false)}>
             Cancel
           </Button>
           <Button
             variant="ghost"
             bg="brand.600"
+            _hover={{ backgroundColor: "brand.800" }}
             color="white"
+            px={8}
             onClick={handleLogin}
           >
             Login
