@@ -18,7 +18,7 @@ import SectionVenue from "./SectionVenue";
 import SectionEventPlanner from "./SectionEventPlanner";
 const Home = () => {
   return (
-    <Flex w="full" h="full" direction="column" overflowX="hidden">
+    <Flex w="full" h="full" direction="column">
       <SectionCarousel />
       <SectionHowItWorks />
       <SectionVenue title="Venue" />

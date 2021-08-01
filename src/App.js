@@ -13,7 +13,7 @@ const App = () => {
   const [role, setRole] = useState("");
 
   return (
-    <Flex h="100vh" w="100vw" direction="column">
+    <Flex h="100vh" w="100vw" direction="column" overflowX="hidden">
       <Header
         isJoinOpen={isJoinOpen}
         setIsJoinOpen={setIsJoinOpen}
