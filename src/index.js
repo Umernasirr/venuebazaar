@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import { Provider } from "react-redux";
 import { theme } from "./utility/theme";
 import { BrowserRouter as Router } from "react-router-dom";
 
