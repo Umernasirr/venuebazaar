@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import ItemDetails from "./ItemDetails";
 
 const VenueDetails = ({ match }) => {
   const [selectedDate, setSelectedDate] = useState("");
@@ -29,26 +30,8 @@ const VenueDetails = ({ match }) => {
 
       <Box mx={16} w="full">
         <SimpleGrid columns={2}>
-          <Flex direction="column">
-            <Text fontWeight="semibold" fontSize={32}>
-              {selectedItem.name}
-            </Text>
+          <ItemDetails selectedItem={selectedItem} />
 
-            <Box my={1} />
-            <Text color="gray.700" fontSize={16}>
-              {selectedItem.address}
-            </Text>
-            <Box my={2} />
-
-            <Image
-              borderRadius={8}
-              height="350px"
-              width="700px"
-              borderRightRadius={10}
-              objectFit="cover"
-              src={"https://picsum.photos/600/600"}
-            />
-          </Flex>
           <Flex>
             <Calendar
               onChange={(value) => {

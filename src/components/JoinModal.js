@@ -19,11 +19,12 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const [errPassword, setErrPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
-    fullname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     contact: "",
-    password: "",
+    confirmPassword: "",
   });
 
   const handleValidation = () => {
@@ -57,20 +58,20 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
         <ModalHeader>Register Now As a {role}!</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl id="fullname">
-            <FormLabel>Full Name</FormLabel>
+          <FormControl id="firstName">
+            <FormLabel>Contact Number</FormLabel>
             <Input
               type="text"
-              onChange={(e) => setUser({ ...user, fullname: e.target.value })}
+              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
             />
             <FormHelperText color="red">{""}</FormHelperText>
           </FormControl>
 
-          <FormControl id="fullname">
+          <FormControl id="lastName">
             <FormLabel>Contact Number</FormLabel>
             <Input
               type="text"
-              onChange={(e) => setUser({ ...user, contact: e.target.value })}
+              onChange={(e) => setUser({ ...user, lastName: e.target.value })}
             />
             <FormHelperText color="red">{""}</FormHelperText>
           </FormControl>
