@@ -80,7 +80,6 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
     }
   };
   const handleRegister = () => {
-    console.log(user);
     if (isFormEmpty()) {
       setError("Please fill all reqired fields");
     } else if (!isPasswordValid()) {
@@ -88,17 +87,14 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
     } else if (!isPhoneNoValid()) {
       setError("Please enter phone number in this format 3059674177");
     } else {
-      console.log(user);
       const newUser = {
         ...user,
         role: role.toString().toLowerCase(),
         phoneNo: "+92" + phoneNo,
       };
-      // console.log(newUser, "new");
       service
         .register(newUser)
         .then(({ data }) => {
-          console.log(data, "response");
           if (data.success) {
             setError("");
             setMessage(

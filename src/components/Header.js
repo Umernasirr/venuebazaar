@@ -13,10 +13,6 @@ import JoinModal from "./JoinModal";
 
 const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  console.log(role);
-  const registerHandler = (user) => {
-    console.log(user);
-  };
 
   return (
     <Flex w="full" bg="gray.100" justify="space-between">
@@ -76,13 +72,8 @@ const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
 
       {/* Login Modal */}
 
-      <LoginModal
-        registerHandler={registerHandler}
-        isLoginOpen={isLoginOpen}
-        setIsLoginOpen={setIsLoginOpen}
-      />
+      <LoginModal isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
       <JoinModal
-        registerHandler={registerHandler}
         isJoinOpen={isJoinOpen}
         setIsJoinOpen={setIsJoinOpen}
         role={role}
