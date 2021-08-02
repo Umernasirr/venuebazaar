@@ -28,18 +28,11 @@ const VenueDetails = ({ match }) => {
       <SectionCarousel />
       <Box my={4} />
 
-      <Box mx={16} w="full">
-        <SimpleGrid columns={2}>
+      <Box mx={{ base: 4, md: 16 }}>
+        <SimpleGrid columns={[1, 1, 2, 2]}>
           <ItemDetails selectedItem={selectedItem} />
 
-          <Flex>
-            <Calendar
-              onChange={(value) => {
-                setSelectedDate(value);
-              }}
-              value={selectedDate}
-            />
-          </Flex>
+          <Flex bg="gray.300"></Flex>
         </SimpleGrid>
       </Box>
 

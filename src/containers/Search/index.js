@@ -29,7 +29,7 @@ const Search = (match, location) => {
 
       <Box mt={4} />
 
-      <Box mx={16}>
+      <Box mx={{ base: 4, md: 16 }}>
         {VENUES.map((venue) => (
           <SearchItem {...venue} />
         ))}

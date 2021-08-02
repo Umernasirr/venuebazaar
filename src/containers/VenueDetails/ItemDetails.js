@@ -1,11 +1,17 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
-import { AiOutlineStar } from "react-icons/ai";
+import {
+  AiOutlineBulb,
+  AiOutlineCheckCircle,
+  AiOutlineDollar,
+  AiOutlineOrderedList,
+  AiOutlineStar,
+} from "react-icons/ai";
 
 const ItemDetails = ({ selectedItem }) => {
   return (
     <Flex direction="column">
-      <Text fontWeight="semibold" fontSize={26}>
+      <Text fontWeight="semibold" fontSize={24}>
         {selectedItem.name}
       </Text>
 
@@ -14,7 +20,7 @@ const ItemDetails = ({ selectedItem }) => {
         {selectedItem.address}
       </Text>
 
-      <Box my={4} />
+      <Box my={{ base: 2, md: 4 }} />
 
       <Image
         borderRadius={8}
@@ -25,22 +31,22 @@ const ItemDetails = ({ selectedItem }) => {
         src={"https://picsum.photos/600/600"}
       />
 
-      <Box my={4} />
+      <Box my={{ base: 2, md: 4 }} />
 
-      <Text fontWeight="semibold" fontSize={26}>
+      <Text fontWeight="semibold" fontSize={24}>
         About {selectedItem.name}
       </Text>
       <Box my={1} />
 
       <Text>{selectedItem.description}</Text>
 
-      <Box my={4} />
+      <Box my={{ base: 2, md: 4 }} />
 
-      <Text fontWeight="semibold" fontSize={26}>
+      <Text fontWeight="semibold" fontSize={24}>
         Features
       </Text>
 
-      <Box my={1} />
+      <Box my={{ base: 0, md: 1 }} />
 
       <Flex>
         {selectedItem.features.map((feature) => (
@@ -51,6 +57,32 @@ const ItemDetails = ({ selectedItem }) => {
           </Flex>
         ))}
       </Flex>
+
+      <Box my={{ base: 2, md: 4 }} />
+
+      <Text fontWeight="semibold" fontSize={24}>
+        Venue Details
+      </Text>
+      <Box my={1} />
+
+      <SimpleGrid columns={1}>
+        <Flex align="center">
+          <Icon color="brand.600" mr={2} as={AiOutlineCheckCircle} />
+          <Text fontSize="md">Seating: </Text>
+          <Text fontSize="md" ml={1}>
+            {selectedItem.seating} People
+          </Text>
+        </Flex>
+
+        <Box my={1} />
+        <Flex align="center">
+          <Icon color="brand.600" mr={2} as={AiOutlineCheckCircle} />
+          <Text fontSize="md">Price:</Text>
+          <Text fontSize="md" ml={1}>
+            {selectedItem.price} PKR.
+          </Text>
+        </Flex>
+      </SimpleGrid>
     </Flex>
   );
 };
