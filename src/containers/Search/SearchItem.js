@@ -1,20 +1,23 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineStar } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
-const SearchItem = ({ id, name, address, type, features, price }) => {
+const SearchItem = ({ id, name, address, type, features, price, seating }) => {
   const history = useHistory();
   return (
     <Flex
       w="full"
+      direction={["column", "column", "row"]}
       justify="space-between"
       my={4}
       boxShadow="base"
       p={4}
+      borderRadius={8}
+      _hover={{ cursor: "pointer", bg: "brand.100" }}
       onClick={() => history.push(`/venuedetails/${id}`)}
     >
-      <Flex>
+      <Flex direction={["column", "column", "row"]} justify="center">
         <Image
           borderRadius={16}
           height="200px"
@@ -24,10 +27,18 @@ const SearchItem = ({ id, name, address, type, features, price }) => {
           src={"https://picsum.photos/600/600"}
         />
 
-        <Flex mx={4} align="flex-start" direction="column">
-          <Text fontSize="2xl">{name}</Text>
+        <Flex
+          mx={4}
+          direction="column"
+          align={["center", "center", "flex-start", "flex-start"]}
+        >
+          <Text fontSize="2xl" textAlign={["center", "center", "left", "left"]}>
+            {name}
+          </Text>
           <Box my={2} />
-          <Text fontSize="lg">{address}</Text>
+          <Text fontSize="lg" textAlign={["center", "center", "left", "left"]}>
+            {address}
+          </Text>
           <Box my={1} />
 
           <Text color="blackAlpha.800" fontSize="lg">
@@ -35,20 +46,39 @@ const SearchItem = ({ id, name, address, type, features, price }) => {
           </Text>
           <Box my={1} />
 
-          <Flex direction="row">
+          <SimpleGrid columns={[2, 2, 2, 4]}>
             {features.map((feat) => (
-              <Flex align="center" justify="center" mr={2}>
-                <AiOutlineStar />
+              <Flex
+                justify="flex-start"
+                align="center"
+                mr={{ base: 1, md: 2 }}
+                my={{ base: 4 }}
+              >
+                <AiOutlineStar color="red" />
                 <Text ml={1}> {feat} </Text>
               </Flex>
             ))}
-          </Flex>
+          </SimpleGrid>
         </Flex>
       </Flex>
 
-      <Box>
-        <Text fontSize="2xl">Price: {price} PKR. </Text>
-      </Box>
+      <Box my={{ base: 2, md: 0 }} />
+
+      <Flex direction="column" align="center" justify="flex-end" mb={12}>
+        <Text fontSize={["lg", "lg", "lg", "xl"]}>
+          <Text color="black" as="span" px={2}>
+            Price:
+          </Text>
+          {price} PKR.
+        </Text>
+        <Box my={{ base: 1, md: 0 }} />
+        <Text fontSize={["lg", "lg", "lg", "xl"]}>
+          <Text color="black" as="span" px={2}>
+            Seating:
+          </Text>
+          {seating} People
+        </Text>
+      </Flex>
     </Flex>
   );
 };
