@@ -103,7 +103,7 @@ export const VENUES = [
   },
 
   {
-    id: 1,
+    id: 2,
     name: "Medallion Banquet",
     address: "Block 10, Gulshan-e-Iqbal, Rashid Minhas Road.",
     price: "454 - 565",
@@ -115,7 +115,7 @@ export const VENUES = [
   },
 
   {
-    id: 1,
+    id: 3,
     name: "Medallion Banquet",
     address: "Block 10, Gulshan-e-Iqbal, Rashid Minhas Road.",
     price: "454 - 565",
@@ -127,7 +127,7 @@ export const VENUES = [
   },
 
   {
-    id: 1,
+    id: 4,
     name: "Medallion Banquet",
     address: "Block 10, Gulshan-e-Iqbal, Rashid Minhas Road.",
     price: "454 - 565",
@@ -139,7 +139,7 @@ export const VENUES = [
   },
 
   {
-    id: 1,
+    id: 5,
     name: "Medallion Banquet",
     address: "Block 10, Gulshan-e-Iqbal, Rashid Minhas Road.",
     price: "454 - 565",

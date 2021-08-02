@@ -1,14 +1,19 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import {
-  AiOutlineDollar,
-  AiOutlineDollarCircle,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
+import { useHistory } from "react-router-dom";
 
-const SearchItem = ({ name, address, type, features, price }) => {
+const SearchItem = ({ id, name, address, type, features, price }) => {
+  const history = useHistory();
   return (
-    <Flex w="full" justify="space-between" my={4} boxShadow="base" p={4}>
+    <Flex
+      w="full"
+      justify="space-between"
+      my={4}
+      boxShadow="base"
+      p={4}
+      onClick={() => history.push(`/venuedetails/${id}`)}
+    >
       <Flex>
         <Image
           borderRadius={16}
