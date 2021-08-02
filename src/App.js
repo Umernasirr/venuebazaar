@@ -1,7 +1,6 @@
 import { Flex } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import { Route, Switch } from "react-router";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SubHeader from "./components/SubHeader";
 import Home from "./containers/Home";

@@ -8,6 +8,7 @@ import {
   AiOutlineMail,
   AiOutlinePhone,
 } from "react-icons/all";
+
 const Footer = () => {
   return (
     <Flex w="full" bg="blackAlpha.800" align="center" py={12}>

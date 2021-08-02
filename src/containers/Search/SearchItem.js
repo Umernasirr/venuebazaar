@@ -1,6 +1,13 @@
-import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Image,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import React from "react";
-import { AiOutlineStar } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
 const SearchItem = ({ id, name, address, type, features, price, seating }) => {
@@ -29,6 +36,7 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
 
         <Flex
           mx={4}
+          my={{ base: 4, md: 0 }}
           direction="column"
           align={["center", "center", "flex-start", "flex-start"]}
         >
@@ -64,20 +72,31 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
 
       <Box my={{ base: 2, md: 0 }} />
 
-      <Flex direction="column" align="center" justify="flex-end" mb={12}>
-        <Text fontSize={["lg", "lg", "lg", "xl"]}>
-          <Text color="black" as="span" px={2}>
-            Price:
+      <Flex direction="column" align="flex-end" justify="space-between" mb={12}>
+        <IconButton
+          variant="ghost"
+          _hover={{ bg: "brand.600", color: "white" }}
+          fontSize={32}
+          borderRadius={8}
+          py={4}
+          icon={<AiOutlineHeart />}
+        />
+
+        <Flex direction="column" align="flex-end">
+          <Text fontSize={["lg", "lg", "lg", "xl"]}>
+            <Text color="black" as="span" px={2}>
+              Price:
+            </Text>
+            {price}
           </Text>
-          {price} PKR.
-        </Text>
-        <Box my={{ base: 1, md: 0 }} />
-        <Text fontSize={["lg", "lg", "lg", "xl"]}>
-          <Text color="black" as="span" px={2}>
-            Seating:
+          <Box my={{ base: 1, md: 0 }} />
+          <Text fontSize={["lg", "lg", "lg", "xl"]}>
+            <Text color="black" as="span" px={2}>
+              Seating:
+            </Text>
+            {seating} People
           </Text>
-          {seating} People
-        </Text>
+        </Flex>
       </Flex>
     </Flex>
   );

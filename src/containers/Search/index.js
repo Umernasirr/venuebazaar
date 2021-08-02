@@ -1,5 +1,5 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Box, filter, Flex, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
@@ -8,11 +8,29 @@ import SearchItem from "./SearchItem";
 
 const Search = (match, location) => {
   const { search } = useLocation();
-
+  const [venues, setVenues] = useState(VENUES);
+  const [filteredVenues, setFilteredVenues] = useState([]);
   useEffect(() => {
     const searchTxt = search.replace("?q=", "");
 
-    console.log(searchTxt.split("&")); //feck u
+    const queryStrings = searchTxt.split("&"); //feck u
+    const venue = queryStrings[0];
+    const venueArea = queryStrings[1];
+    const venueType = queryStrings[2];
+
+    let filteredVenues = venues.filter(
+      (v) => v.type === venueType || "" === venueType
+    );
+
+    const filteredVenues2 = filteredVenues.filter(
+      (v) => v.name === venue || "" === venue
+    );
+
+    const filteredVenues3 = filteredVenues2.filter(
+      (v) => v.address === venueArea || "" === venueArea
+    );
+
+    setFilteredVenues(filteredVenues3);
   }, [search]);
 
   return (
@@ -30,7 +48,7 @@ const Search = (match, location) => {
       <Box mt={4} />
 
       <Box mx={{ base: 4, md: 16 }}>
-        {VENUES.map((venue) => (
+        {filteredVenues.map((venue) => (
           <SearchItem {...venue} />
         ))}
       </Box>

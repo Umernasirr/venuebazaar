@@ -10,6 +10,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import store from "./redux/store/index.js";
 import { theme } from "./utility/theme";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 ReactDOM.render(
   <React.StrictMode>

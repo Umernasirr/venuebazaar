@@ -1,12 +1,6 @@
 import { Box, Flex, Icon, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
-import {
-  AiOutlineBulb,
-  AiOutlineCheckCircle,
-  AiOutlineDollar,
-  AiOutlineOrderedList,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiOutlineCheckCircle, AiOutlineStar } from "react-icons/ai";
 
 const ItemDetails = ({ selectedItem }) => {
   return (
@@ -46,9 +40,9 @@ const ItemDetails = ({ selectedItem }) => {
         Features
       </Text>
 
-      <Box my={{ base: 0, md: 1 }} />
+      <Box my={1} />
 
-      <Flex>
+      <SimpleGrid columns={[2, 2, 2, 4]}>
         {selectedItem.features.map((feature) => (
           <Flex w="full" justify="flex-start" align="center">
             <AiOutlineStar color="red" />
@@ -56,7 +50,7 @@ const ItemDetails = ({ selectedItem }) => {
             <Text>{feature}</Text>
           </Flex>
         ))}
-      </Flex>
+      </SimpleGrid>
 
       <Box my={{ base: 2, md: 4 }} />
 
@@ -69,7 +63,7 @@ const ItemDetails = ({ selectedItem }) => {
         <Flex align="center">
           <Icon color="brand.600" mr={2} as={AiOutlineCheckCircle} />
           <Text fontSize="md">Seating: </Text>
-          <Text fontSize="md" ml={1}>
+          <Text fontSize={["xs", "xs", "xs", "md"]} ml={1}>
             {selectedItem.seating} People
           </Text>
         </Flex>
@@ -77,9 +71,11 @@ const ItemDetails = ({ selectedItem }) => {
         <Box my={1} />
         <Flex align="center">
           <Icon color="brand.600" mr={2} as={AiOutlineCheckCircle} />
-          <Text fontSize="md">Price:</Text>
+          <Text fontSize={["xs", "xs", "xs", "md"]} ml={1}>
+            Price:
+          </Text>
           <Text fontSize="md" ml={1}>
-            {selectedItem.price} PKR.
+            {selectedItem.price}
           </Text>
         </Flex>
       </SimpleGrid>

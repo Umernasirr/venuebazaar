@@ -1,14 +1,11 @@
-import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import ItemDetails from "./ItemDetails";
-
+import MyCalendar from "../../components/MyCalendar";
 const VenueDetails = ({ match }) => {
-  const [selectedDate, setSelectedDate] = useState("");
-  useEffect(() => {}, []);
   const { id } = match.params;
 
   const selectedItem = {
@@ -32,11 +29,14 @@ const VenueDetails = ({ match }) => {
         <SimpleGrid columns={[1, 1, 2, 2]}>
           <ItemDetails selectedItem={selectedItem} />
 
-          <Flex bg="gray.300"></Flex>
+          <Flex align="center" justify="center" p={4}>
+            <MyCalendar />
+          </Flex>
         </SimpleGrid>
       </Box>
 
       <Box my={4} />
+
       <Footer />
     </Flex>
   );
