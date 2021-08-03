@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, filter, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
 import { VENUES } from "../../constants";
 import SearchItem from "./SearchItem";
+
+const ACTIVE_BOOKINS = [1, 1, 1, 1, 1];
 
 const Search = (match, location) => {
   const { search } = useLocation();
