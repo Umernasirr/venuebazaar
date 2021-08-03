@@ -1,12 +1,9 @@
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   AiOutlineLogin,
-  AiOutlineNotification,
   AiOutlinePhone,
-  GrLocationPin,
   IoLocationOutline,
-  MdLocationCity,
 } from "react-icons/all";
 import LoginModal from "./LoginModal";
 import JoinModal from "./JoinModal";
