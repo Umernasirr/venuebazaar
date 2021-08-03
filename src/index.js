@@ -1,19 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "@fontsource/roboto";
+
 import { ChakraProvider } from "@chakra-ui/react";
+
+import { Provider } from "react-redux";
+import store from "./redux/store/index.js";
 import { theme } from "./utility/theme";
-import { BrowserRouter as Router } from "react-router-dom";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <Router>
-        <App />
-      </Router>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider theme={theme}>
+        <Router>
+          <App />
+        </Router>
+      </ChakraProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
