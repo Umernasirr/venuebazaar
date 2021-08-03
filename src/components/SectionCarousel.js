@@ -69,8 +69,10 @@ const SectionCarousel = () => {
             bg="white"
             onChange={(e) => setVenue(e.target.value)}
           >
-            {SEARCH_VENUE.map((venue) => (
-              <option value={venue}>{venue}</option>
+            {SEARCH_VENUE.map((venue, i) => (
+              <option key={i.toString()} value={venue}>
+                {venue}
+              </option>
             ))}
           </Select>
 
@@ -81,8 +83,10 @@ const SectionCarousel = () => {
             bg="white"
             onChange={(e) => setVenueArea(e.target.value)}
           >
-            {SEARCH_AREA.map((area) => (
-              <option value={area}>{area}</option>
+            {SEARCH_AREA.map((area, i) => (
+              <option key={i.toString()} value={area}>
+                {area}
+              </option>
             ))}
           </Select>
 
@@ -93,8 +97,10 @@ const SectionCarousel = () => {
             bg="white"
             onChange={(e) => setVenueType(e.target.value)}
           >
-            {SEARCH_TYPE.map((type) => (
-              <option value={type}>{type}</option>
+            {SEARCH_TYPE.map((type, i) => (
+              <option key={i.toString()} value={type}>
+                {type}
+              </option>
             ))}
           </Select>
 

@@ -22,7 +22,7 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
       p={4}
       borderRadius={8}
       _hover={{ cursor: "pointer", bg: "brand.100" }}
-      onClick={() => history.push(`/venuedetails/${id}`)}
+      onClick={() => history.push(`/venueDetails/${id}`)}
     >
       <Flex direction={["column", "column", "row"]} justify="center">
         <Image
@@ -55,8 +55,9 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
           <Box my={1} />
 
           <SimpleGrid columns={[2, 2, 2, 4]}>
-            {features.map((feat) => (
+            {features.map((feat, i) => (
               <Flex
+                key={i.toString()}
                 justify="flex-start"
                 align="center"
                 mr={{ base: 1, md: 2 }}

@@ -43,8 +43,8 @@ const ItemDetails = ({ selectedItem }) => {
       <Box my={1} />
 
       <SimpleGrid columns={[2, 2, 2, 4]}>
-        {selectedItem.features.map((feature) => (
-          <Flex w="full" justify="flex-start" align="center">
+        {selectedItem.features.map((feature, i) => (
+          <Flex key={i.toString()} w="full" justify="flex-start" align="center">
             <AiOutlineStar color="red" />
             <Box mr={1} />
             <Text>{feature}</Text>
