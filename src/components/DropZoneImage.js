@@ -7,7 +7,6 @@ const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
   const onDrop = useCallback((files) => {
     setAcceptedFiles([...acceptedFiles, files]);
 
-    console.log(files);
     // files.forEach((file) => {
     //   const reader = new FileReader();
 
@@ -22,11 +21,12 @@ const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
     // });
   }, []);
 
-  const remove = (file) => {
-    const tempAccepted = acceptedFiles.splice(file, 1);
-    setAcceptedFiles(tempAccepted);
-
-    console.log(file);
+  const remove = (sFile) => {
+    // const tempAccepted = acceptedFiles[0].filter(
+    //   (file) => file.name !== sFile.name
+    // );
+    // console.log(tempAccepted[1]);
+    // setAcceptedFiles(tempAccepted);
     // remove the file from the array
   };
 
@@ -69,13 +69,13 @@ const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
               <Flex align="center">
                 <Text>{file.name}</Text>
                 <Box mx={1} />
-                <IconButton
+                {/* <IconButton
                   bg="transparent"
                   onClick={() => remove(file)}
                   color="brand.600"
                   fontSize={24}
                   icon={<AiOutlineCloseCircle />}
-                />
+                /> */}
               </Flex>
             ))
           )

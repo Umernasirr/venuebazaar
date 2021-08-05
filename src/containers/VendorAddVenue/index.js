@@ -8,6 +8,7 @@ import {
   Box,
   Select,
   SimpleGrid,
+  Button,
 } from "@chakra-ui/react";
 import ReactSelect from "react-select";
 import makeAnimated from "react-select/animated";
@@ -26,6 +27,7 @@ const VendorAddVenue = () => {
     venueEmail: "",
     venueWebsite: "",
     venueDescription: "",
+    venueCity: "",
     venueMinPrice: "",
     venueMaxPrice: "",
     venueCapacity: "",
@@ -60,6 +62,10 @@ const VendorAddVenue = () => {
     { value: "vanilla", label: "Vanilla" },
   ];
 
+  const handleSubmit = () => {
+    console.log(venueDetails);
+  };
+
   return (
     <Flex w="full" h="full" direction="column">
       <Box my={4} />
@@ -68,7 +74,14 @@ const VendorAddVenue = () => {
         <Flex w="full" align="center">
           <FormControl id="venueName">
             <FormLabel>Venue Name</FormLabel>
-            <Input type="text" placeholder="Enter Venue Name" bg="white" />
+            <Input
+              type="text"
+              placeholder="Enter Venue Name"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({ ...venueDetails, venueName: e.target.value })
+              }
+            />
           </FormControl>
           <Box mx={2} />
 
@@ -80,6 +93,9 @@ const VendorAddVenue = () => {
               bg="white"
               color="gray.400"
               _focus={{ color: "black" }}
+              onChange={(e) =>
+                setVenueDetails({ ...venueDetails, venueType: e.target.value })
+              }
             >
               <option value="normal">Normal</option>
               <option value="banquet">Banquet</option>
@@ -92,7 +108,17 @@ const VendorAddVenue = () => {
         <Flex w="full" align="center">
           <FormControl id="venueAddress">
             <FormLabel>Venue Address</FormLabel>
-            <Input type="text" placeholder="Enter Venue Address" bg="white" />
+            <Input
+              type="text"
+              placeholder="Enter Venue Address"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueAddress: e.target.value,
+                })
+              }
+            />
           </FormControl>
           <Box mx={{ base: 1, md: 2 }} />
 
@@ -104,6 +130,12 @@ const VendorAddVenue = () => {
               bg="white"
               color="gray.400"
               _focus={{ color: "black" }}
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  selectedTown: e.target.value,
+                })
+              }
             >
               <option value="abidabad">Abidabad</option>
               <option value="afridicolony">AfridiColony</option>
@@ -113,7 +145,14 @@ const VendorAddVenue = () => {
 
           <FormControl id="venueAddress">
             <FormLabel>Venue City</FormLabel>
-            <Input type="text" placeholder="Enter Venue Address" bg="white" />
+            <Input
+              type="text"
+              placeholder="Enter Venue City"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({ ...venueDetails, venueCity: e.target.value })
+              }
+            />
           </FormControl>
         </Flex>
 
@@ -126,6 +165,12 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="Enter Telephone No.1 value"
               bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueTelephone1: e.target.value,
+                })
+              }
             />
           </FormControl>
           <Box mx={2} />
@@ -136,6 +181,12 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="Enter Telephone No.2 value"
               bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueTelephone2: e.target.value,
+                })
+              }
             />
           </FormControl>
         </Flex>
@@ -147,8 +198,11 @@ const VendorAddVenue = () => {
             <FormLabel>Email Address</FormLabel>
             <Input
               type="text"
-              placeholder="Enter Telephone No.1 value"
+              placeholder="Enter Email"
               bg="white"
+              onChange={(e) =>
+                setVenueDetails({ ...venueDetails, venueEmail: e.target.value })
+              }
             />
           </FormControl>
           <Box mx={2} />
@@ -157,8 +211,14 @@ const VendorAddVenue = () => {
             <FormLabel>Venue Website</FormLabel>
             <Input
               type="text"
-              placeholder="Enter Telephone No.2 value"
+              placeholder="Venue Website"
               bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueWebsite: e.target.value,
+                })
+              }
             />
           </FormControl>
         </Flex>
@@ -168,7 +228,16 @@ const VendorAddVenue = () => {
         <Flex w="full" align="center">
           <FormControl id="venueDescription">
             <FormLabel>Venue Description</FormLabel>
-            <Textarea placeholder="Enter Venue Description" bg="white" />
+            <Textarea
+              placeholder="Enter Venue Description"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueDescription: e.target.value,
+                })
+              }
+            />
           </FormControl>
         </Flex>
 
@@ -177,20 +246,50 @@ const VendorAddVenue = () => {
         <Flex w="full" align="center">
           <FormControl id="venueMinPrice">
             <FormLabel>Venue Min Price</FormLabel>
-            <Input type="text" placeholder="0" bg="white" />
+            <Input
+              type="text"
+              placeholder="0"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueMinPrice: e.target.value,
+                })
+              }
+            />
           </FormControl>
           <Box mx={2} />
 
           <FormControl id="venueMaxPrice">
             <FormLabel>Venue Max Price</FormLabel>
-            <Input type="text" placeholder="0" bg="white" />
+            <Input
+              type="text"
+              placeholder="0"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueMaxPrice: e.target.value,
+                })
+              }
+            />
           </FormControl>
 
           <Box mx={2} />
 
           <FormControl id="venueCapacity">
             <FormLabel>Venue Capacity</FormLabel>
-            <Input type="text" placeholder="0" bg="white" />
+            <Input
+              type="text"
+              placeholder="0"
+              bg="white"
+              onChange={(e) =>
+                setVenueDetails({
+                  ...venueDetails,
+                  venueCapacity: e.target.value,
+                })
+              }
+            />
           </FormControl>
         </Flex>
 
@@ -207,6 +306,12 @@ const VendorAddVenue = () => {
                 isMulti
                 options={OPTIONS}
                 styles={colourStyles}
+                onChange={(items) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    selectedFacilities: items,
+                  })
+                }
               />
             </FormControl>
 
@@ -220,6 +325,12 @@ const VendorAddVenue = () => {
                 type="text"
                 placeholder="Enter Google Map Key"
                 bg="white"
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueGoogleKey: e.target.value,
+                  })
+                }
               />
             </FormControl>
           </SimpleGrid>
@@ -233,10 +344,26 @@ const VendorAddVenue = () => {
         </Flex>
 
         {/*  */}
+
+        <Box my={4} />
+        <Flex w="full" align="center" justify="center">
+          <Button
+            borderRadius={8}
+            w="100vw"
+            p={4}
+            bg="brand.600"
+            color="white"
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </Flex>
       </Box>
 
       <Box my={4} />
+
       <Footer />
+
       {/*  */}
     </Flex>
   );
