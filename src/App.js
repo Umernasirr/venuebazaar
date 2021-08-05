@@ -8,7 +8,7 @@ import Search from "./containers/Search";
 import VendorAddVenue from "./containers/VendorAddVenue";
 import VendorDashboard from "./containers/VendorDashboard";
 import VenueDetails from "./containers/VenueDetails";
-
+import VendorEditVenue from "./containers/VendorEditVenue";
 //
 const App = () => {
   const [isJoinOpen, setIsJoinOpen] = useState(false);
@@ -29,6 +29,7 @@ const App = () => {
         <Route exact path="/venueDetails/:id" component={VenueDetails} />
         <Route exact path="/vendorDashboard" component={VendorDashboard} />
         <Route exact path="/vendorAddVenue" component={VendorAddVenue} />
+        <Route exact path="/vendorEditVenue/:id" component={VendorEditVenue} />
       </Switch>
     </Flex>
   );

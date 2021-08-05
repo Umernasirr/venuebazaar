@@ -1,9 +1,10 @@
 import { Box, Button, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
-import { AiOutlineStar } from "react-icons/ai";
 
+import { useHistory } from "react-router-dom";
 import { VENUES } from "../../constants/index";
 const ManageVenues = () => {
+  const history = useHistory();
   return (
     <Flex direction="column" mx={4} my={{ base: 4, md: 2 }}>
       <Text fontSize={24} fontWeight="bold" textAlign="center">
@@ -76,6 +77,9 @@ const ManageVenues = () => {
                       color="white"
                       width={["120px", "120px", "60px", "60px"]}
                       _hover={{ bg: "brand.800" }}
+                      onClick={() =>
+                        history.push(`/vendorEditVenue/${venue.id}`)
+                      }
                     >
                       Edit
                     </Button>
