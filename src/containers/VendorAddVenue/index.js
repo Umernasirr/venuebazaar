@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -16,6 +16,26 @@ import Footer from "../../components/Footer";
 
 import { Colors } from "../../utility/theme";
 const VendorAddVenue = () => {
+  const [venueDetails, setVenueDetails] = useState({
+    venueName: "",
+    venueType: "",
+    venueAddress: "",
+    selectedTown: "",
+    venueTelephone1: "",
+    venueTelephone2: "",
+    venueEmail: "",
+    venueWebsite: "",
+    venueDescription: "",
+    venueMinPrice: "",
+    venueMaxPrice: "",
+    venueCapacity: "",
+    selectedFacilities: [],
+    venueGoogleKey: "",
+    selectedFiles: [],
+  });
+
+  const [acceptedFiles, setAcceptedFiles] = useState([]);
+
   const animatedComponents = makeAnimated();
 
   const colourStyles = {
@@ -71,7 +91,7 @@ const VendorAddVenue = () => {
 
         <Flex w="full" align="center">
           <FormControl id="venueAddress">
-            <FormLabel>Venue address</FormLabel>
+            <FormLabel>Venue Address</FormLabel>
             <Input type="text" placeholder="Enter Venue Address" bg="white" />
           </FormControl>
           <Box mx={{ base: 1, md: 2 }} />
@@ -92,7 +112,7 @@ const VendorAddVenue = () => {
           <Box mx={{ base: 1, md: 2 }} />
 
           <FormControl id="venueAddress">
-            <FormLabel>Venue address</FormLabel>
+            <FormLabel>Venue City</FormLabel>
             <Input type="text" placeholder="Enter Venue Address" bg="white" />
           </FormControl>
         </Flex>
@@ -205,8 +225,11 @@ const VendorAddVenue = () => {
           </SimpleGrid>
         </Flex>
 
-        <Flex p={4}>
-          <DropZoneImage />
+        <Flex p={0}>
+          <DropZoneImage
+            acceptedFiles={acceptedFiles}
+            setAcceptedFiles={setAcceptedFiles}
+          />
         </Flex>
 
         {/*  */}

@@ -11,6 +11,8 @@ import JoinModal from "./JoinModal";
 const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
+  
+
   return (
     <Flex w="full" bg="gray.100" justify="space-between">
       <Flex align="center" p={4}>
