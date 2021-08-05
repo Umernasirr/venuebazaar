@@ -1,6 +1,7 @@
 import {
   Box,
   Flex,
+  Icon,
   IconButton,
   Image,
   SimpleGrid,
@@ -63,7 +64,7 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
                 mr={{ base: 1, md: 2 }}
                 my={{ base: 4 }}
               >
-                <AiOutlineStar color="red" />
+                <Icon color="brand.600" as={AiOutlineStar} />
                 <Text ml={1}> {feat} </Text>
               </Flex>
             ))}

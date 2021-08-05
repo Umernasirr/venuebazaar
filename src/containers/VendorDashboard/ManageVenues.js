@@ -108,7 +108,7 @@ const ManageVenues = () => {
                           color: "black",
                         }}
                         onClick={() =>
-                          history.push(`/vendorEditVenue/${venue.id}`)
+                          history.push(`/venueDetails/${venue.id}`)
                         }
                       >
                         Add Booking
