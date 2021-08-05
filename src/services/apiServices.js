@@ -45,7 +45,7 @@ export const api = {
     let progress = data && data.progress === false ? data.progress : true;
     // console.log('progress',progress)
     let param = null;
-    if (method.toLowerCase() == "get") {
+    if (method.toLowerCase() === "get") {
       param = data;
       data = null;
     }

@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import SubHeader from "./components/SubHeader";
 import Home from "./containers/Home";
 import Search from "./containers/Search";
+import VendorAddVenue from "./containers/VendorAddVenue";
 import VendorDashboard from "./containers/VendorDashboard";
 import VenueDetails from "./containers/VenueDetails";
 
@@ -26,7 +27,8 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/search" component={Search} />
         <Route exact path="/venueDetails/:id" component={VenueDetails} />
-        <Route exact path="/vendorDashboard/" component={VendorDashboard} />
+        <Route exact path="/vendorDashboard" component={VendorDashboard} />
+        <Route exact path="/vendorAddVenue" component={VendorAddVenue} />
       </Switch>
     </Flex>
   );
