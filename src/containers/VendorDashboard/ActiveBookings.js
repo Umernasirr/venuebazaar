@@ -51,7 +51,7 @@ const ActiveBookings = ({ bookings }) => {
               Reject Booking
             </Button>
             <Box mx={2} />
-            <Button bg="brand.600" color="white">
+            <Button bg="brand.600" color="white" _hover={{ bg: "brand.800" }}>
               Accept Booking
             </Button>
           </Flex>

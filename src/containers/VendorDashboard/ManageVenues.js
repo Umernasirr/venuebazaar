@@ -6,7 +6,7 @@ import { VENUES } from "../../constants/index";
 const ManageVenues = () => {
   const history = useHistory();
   return (
-    <Flex direction="column" mx={4} my={{ base: 4, md: 2 }}>
+    <Flex direction="column" mx={0} my={{ base: 4, md: 2 }}>
       <Text fontSize={24} fontWeight="bold" textAlign="center">
         Manage Venues
       </Text>
@@ -64,29 +64,56 @@ const ManageVenues = () => {
                   </Flex>
 
                   <Flex
-                    justify={[
-                      "space-around",
-                      "space-around",
-                      "flex-end",
-                      "flex-end",
+                    direction={[
+                      "column-reverse",
+                      "column-reverse",
+                      "column",
+                      "column",
                     ]}
+                    align={["center", "center", "flex-end", "flex-end"]}
+                    justify="space-between"
                     my={{ base: 4, md: 0 }}
                   >
-                    <Button
-                      bg="brand.600"
-                      color="white"
-                      width={["120px", "120px", "60px", "60px"]}
-                      _hover={{ bg: "brand.800" }}
-                      onClick={() =>
-                        history.push(`/vendorEditVenue/${venue.id}`)
-                      }
-                    >
-                      Edit
-                    </Button>
-                    <Box mx={1} />
-                    <Button width={["120px", "120px", "60px", "60px"]}>
-                      Delete
-                    </Button>
+                    <Flex>
+                      <Button
+                        bg="brand.600"
+                        color="white"
+                        width={["120px", "120px", "60px", "60px"]}
+                        _hover={{ bg: "brand.800" }}
+                        onClick={() =>
+                          history.push(`/vendorEditVenue/${venue.id}`)
+                        }
+                      >
+                        Edit
+                      </Button>
+                      <Box mx={1} />
+                      <Button
+                        bg={["gray.100", "transparent"]}
+                        width={["120px", "120px", "60px", "60px"]}
+                      >
+                        Delete
+                      </Button>
+                    </Flex>
+
+                    <Flex my={{ base: 2, md: 0 }}>
+                      <Button
+                        bg="white"
+                        color="blackAlpha.700"
+                        borderColor="brand.600"
+                        borderWidth={2}
+                        width={["120px", "120px", "80px", "130px"]}
+                        height="50px"
+                        _hover={{
+                          bg: "gray.50",
+                          color: "black",
+                        }}
+                        onClick={() =>
+                          history.push(`/vendorEditVenue/${venue.id}`)
+                        }
+                      >
+                        Add Booking
+                      </Button>
+                    </Flex>
                   </Flex>
                 </SimpleGrid>
               </Flex>
