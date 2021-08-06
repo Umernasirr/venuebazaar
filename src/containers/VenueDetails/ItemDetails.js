@@ -45,7 +45,7 @@ const ItemDetails = ({ selectedItem }) => {
       <SimpleGrid columns={[2, 2, 2, 4]}>
         {selectedItem.features.map((feature, i) => (
           <Flex key={i.toString()} w="full" justify="flex-start" align="center">
-            <AiOutlineStar color="red" />
+            <Icon color="brand.600" as={AiOutlineStar} />
             <Box mr={1} />
             <Text>{feature}</Text>
           </Flex>

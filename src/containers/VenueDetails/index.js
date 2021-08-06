@@ -2,7 +2,6 @@ import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
-import "react-calendar/dist/Calendar.css";
 import ItemDetails from "./ItemDetails";
 import MyCalendar from "../../components/MyCalendar";
 const VenueDetails = ({ match }) => {
@@ -30,7 +29,7 @@ const VenueDetails = ({ match }) => {
           <ItemDetails selectedItem={selectedItem} />
 
           <Flex align="center" justify="center" p={4}>
-            <MyCalendar />
+            <MyCalendar venue={selectedItem} />
           </Flex>
         </SimpleGrid>
       </Box>

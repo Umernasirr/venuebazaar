@@ -7,9 +7,6 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
 
-
-  
-
   return (
     <Flex
       as="nav"

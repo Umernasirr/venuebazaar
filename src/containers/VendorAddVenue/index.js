@@ -391,11 +391,12 @@ const VendorAddVenue = () => {
           <Button
             borderRadius={8}
             w="100%"
-            h="60px"
+            h="56px"
             p={4}
             bg="brand.600"
             color="white"
             onClick={handleSubmit}
+            _hover={{ bg: "brand.800" }}
           >
             Submit
           </Button>

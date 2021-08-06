@@ -354,6 +354,7 @@ const VendorAddVenue = () => {
             p={4}
             bg="brand.600"
             color="white"
+            _hover={{ bg: "brand.800" }}
             onClick={handleSubmit}
           >
             Submit

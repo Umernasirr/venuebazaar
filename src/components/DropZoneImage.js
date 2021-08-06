@@ -53,6 +53,7 @@ const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
         w="full"
         boxShadow="sm"
         pb={{ base: 4, md: 8 }}
+        _hover={{ cursor: "pointer" }}
       >
         <input {...getInputProps()} />
         <Text fontWeight="semibold" fontSize={20} color="blackAlpha.700">
