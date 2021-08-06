@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -16,7 +16,11 @@ import DropZoneImage from "../../components/DropZoneImage";
 import Footer from "../../components/Footer";
 
 import { Colors } from "../../utility/theme";
+import { service } from "../../services/services";
+import { FACILITY_CONTENT } from "../../constants";
+
 const VendorAddVenue = () => {
+  const [towns, setTowns] = useState([]);
   const [venueDetails, setVenueDetails] = useState({
     venueName: "",
     venueType: "",
@@ -36,6 +40,34 @@ const VendorAddVenue = () => {
     selectedFiles: [],
   });
 
+  const {
+    venueName,
+    venueType,
+    venueAddress,
+    selectedTown,
+    venueTelephone1,
+    venueTelephone2,
+    venueEmail,
+    venueWebsite,
+    venueDescription,
+    venueCity,
+    venueMinPrice,
+    venueMaxPrice,
+    venueCapacity,
+    selectedFacilities,
+    venueGoogleKey,
+    selectedFilesselectedFacilities,
+  } = venueDetails;
+
+  // const isFormEmpty = () => {
+  //   return (
+  //     !venueName.length ||
+  //     !venueType.length ||
+  //     !venueAddress.length ||
+  //     !selectedTown.length
+  //   );
+  // };
+  const [error, setError] = useState("");
   const [acceptedFiles, setAcceptedFiles] = useState([]);
 
   const animatedComponents = makeAnimated();
@@ -56,23 +88,30 @@ const VendorAddVenue = () => {
     },
   };
 
-  const OPTIONS = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-
   const handleSubmit = () => {
     console.log(venueDetails);
   };
 
+  const getTowns = () => {
+    service
+      .getTowns()
+      .then(({ data }) => {
+        if (data.success) {
+          setTowns(data.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getTowns();
+  }, []);
   return (
     <Flex w="full" h="full" direction="column">
       <Box my={4} />
 
       <Box mx={{ sm: 0, md: 32 }} bg="gray.100" p={4} borderRadius={8}>
         <Flex w="full" align="center">
-          <FormControl id="venueName">
+          <FormControl id="venueName" isRequired="true">
             <FormLabel>Venue Name</FormLabel>
             <Input
               type="text"
@@ -85,7 +124,7 @@ const VendorAddVenue = () => {
           </FormControl>
           <Box mx={2} />
 
-          <FormControl id="venueType">
+          <FormControl id="venueType" isRequired="true">
             <FormLabel>Venue Type</FormLabel>
 
             <Select
@@ -106,7 +145,7 @@ const VendorAddVenue = () => {
         <Box my={4} />
 
         <Flex w="full" align="center">
-          <FormControl id="venueAddress">
+          <FormControl id="venueAddress" isRequired="true">
             <FormLabel>Venue Address</FormLabel>
             <Input
               type="text"
@@ -122,7 +161,7 @@ const VendorAddVenue = () => {
           </FormControl>
           <Box mx={{ base: 1, md: 2 }} />
 
-          <FormControl id="venueType">
+          <FormControl id="venueType" isRequired="true">
             <FormLabel>Select Town</FormLabel>
 
             <Select
@@ -137,13 +176,15 @@ const VendorAddVenue = () => {
                 })
               }
             >
-              <option value="abidabad">Abidabad</option>
-              <option value="afridicolony">AfridiColony</option>
+              {towns &&
+                towns.map((town) => (
+                  <option value={town._id}>{town.area}</option>
+                ))}
             </Select>
           </FormControl>
           <Box mx={{ base: 1, md: 2 }} />
 
-          <FormControl id="venueAddress">
+          <FormControl id="venueAddress" isRequired="true">
             <FormLabel>Venue City</FormLabel>
             <Input
               type="text"
@@ -159,7 +200,7 @@ const VendorAddVenue = () => {
         <Box my={4} />
 
         <Flex w="full" align="center">
-          <FormControl id="venueTelephone1">
+          <FormControl id="venueTelephone1" isRequired="true">
             <FormLabel>Venue Telephone No.1</FormLabel>
             <Input
               type="text"
@@ -194,7 +235,7 @@ const VendorAddVenue = () => {
         <Box my={4} />
 
         <Flex w="full" align="center">
-          <FormControl id="venueEmail">
+          <FormControl id="venueEmail" isRequired="true">
             <FormLabel>Email Address</FormLabel>
             <Input
               type="text"
@@ -225,7 +266,7 @@ const VendorAddVenue = () => {
 
         <Box my={4} />
 
-        <Flex w="full" align="center">
+        <Flex w="full" align="center" isRequired="true">
           <FormControl id="venueDescription">
             <FormLabel>Venue Description</FormLabel>
             <Textarea
@@ -243,7 +284,7 @@ const VendorAddVenue = () => {
 
         <Box my={4} />
 
-        <Flex w="full" align="center">
+        <Flex w="full" align="center" isRequired="true">
           <FormControl id="venueMinPrice">
             <FormLabel>Venue Min Price</FormLabel>
             <Input
@@ -260,7 +301,7 @@ const VendorAddVenue = () => {
           </FormControl>
           <Box mx={2} />
 
-          <FormControl id="venueMaxPrice">
+          <FormControl id="venueMaxPrice" isRequired="true">
             <FormLabel>Venue Max Price</FormLabel>
             <Input
               type="text"
@@ -277,7 +318,7 @@ const VendorAddVenue = () => {
 
           <Box mx={2} />
 
-          <FormControl id="venueCapacity">
+          <FormControl id="venueCapacity" isRequired="true">
             <FormLabel>Venue Capacity</FormLabel>
             <Input
               type="text"
@@ -297,14 +338,14 @@ const VendorAddVenue = () => {
 
         <Flex w="full" align="center" justify="left">
           <SimpleGrid w="full" columns={[1, 1, 1, 2]}>
-            <FormControl id="venueType">
+            <FormControl id="venueType" isRequired="true">
               <FormLabel>Select Facility</FormLabel>
 
               <ReactSelect
                 closeMenuOnSelect={false}
                 components={animatedComponents}
                 isMulti
-                options={OPTIONS}
+                options={FACILITY_CONTENT}
                 styles={colourStyles}
                 onChange={(items) =>
                   setVenueDetails({

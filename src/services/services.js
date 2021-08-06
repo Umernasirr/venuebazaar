@@ -7,4 +7,13 @@ export const service = {
   register: (data) => {
     return api.invoke("POST", `auth/register`, data);
   },
+  getVenues: () => {
+    return api.invoke("GET", `venue/`);
+  },
+  addVenue: (data) => {
+    return api.invoke("POST", `venue/`, data);
+  },
+  getTowns: () => {
+    return api.invoke("GET", `town/`);
+  },
 };

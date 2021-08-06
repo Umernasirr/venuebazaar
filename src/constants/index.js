@@ -229,3 +229,56 @@ export const BOOKINGS = [
     date: new Date().toISOString().slice(0, 10),
   },
 ];
+
+export const FACILITY_CONTENT = [
+  {
+    id: 0,
+    label: "Segregation",
+    value: "segregation",
+  },
+  {
+    id: 1,
+    label: "Catering",
+    value: "catering",
+  },
+  {
+    id: 3,
+    label: "Projector",
+    value: "projector",
+  },
+  {
+    id: 4,
+    label: "Stage Decoration",
+    value: "stageDecoration",
+  },
+  {
+    id: 5,
+    label: "Waitering",
+    value: "waitering",
+  },
+  {
+    id: 6,
+    label: "Music System",
+    value: "musicSystem",
+  },
+  {
+    id: 7,
+    label: "Special Light",
+    value: "specialLight",
+  },
+  {
+    id: 8,
+    label: "Air Conditioner",
+    value: "airConditioner",
+  },
+  {
+    id: 9,
+    label: "Standby Generator",
+    value: "standbyGenerator",
+  },
+  {
+    id: 10,
+    label: "Parking",
+    value: "parking",
+  },
+];
