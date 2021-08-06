@@ -11,7 +11,7 @@ export const service = {
     return api.invoke("GET", `venue/`);
   },
   addVenue: (data) => {
-    return api.invoke("POST", `venue/`, data);
+    return api.uploadFormData("POST", `venue/`, data);
   },
   getTowns: () => {
     return api.invoke("GET", `town/`);

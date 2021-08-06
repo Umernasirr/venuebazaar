@@ -39,6 +39,10 @@ const VendorAddVenue = () => {
     venueGoogleKey: "",
     selectedFiles: [],
   });
+  const [error, setError] = useState("");
+  const [acceptedFiles, setAcceptedFiles] = useState([]);
+
+  const animatedComponents = makeAnimated();
 
   const {
     venueName,
@@ -59,18 +63,23 @@ const VendorAddVenue = () => {
     selectedFilesselectedFacilities,
   } = venueDetails;
 
-  // const isFormEmpty = () => {
-  //   return (
-  //     !venueName.length ||
-  //     !venueType.length ||
-  //     !venueAddress.length ||
-  //     !selectedTown.length
-  //   );
-  // };
-  const [error, setError] = useState("");
-  const [acceptedFiles, setAcceptedFiles] = useState([]);
-
-  const animatedComponents = makeAnimated();
+  const isFormEmpty = () => {
+    return (
+      !venueName.length ||
+      !venueType.length ||
+      !venueAddress.length ||
+      !selectedTown.length ||
+      !venueCity.length ||
+      !venueTelephone1.length ||
+      !venueEmail.length ||
+      !venueDescription.length ||
+      !venueMinPrice.length ||
+      !venueMaxPrice.length ||
+      !venueCapacity.length ||
+      !selectedFacilities.length ||
+      !selectedFilesselectedFacilities.length
+    );
+  };
 
   const colourStyles = {
     control: (styles) => ({
@@ -90,6 +99,7 @@ const VendorAddVenue = () => {
 
   const handleSubmit = () => {
     console.log(venueDetails);
+    console.log(acceptedFiles, "accepted");
   };
 
   const getTowns = () => {
@@ -266,8 +276,8 @@ const VendorAddVenue = () => {
 
         <Box my={4} />
 
-        <Flex w="full" align="center" isRequired="true">
-          <FormControl id="venueDescription">
+        <Flex w="full" align="center">
+          <FormControl id="venueDescription" isRequired="true">
             <FormLabel>Venue Description</FormLabel>
             <Textarea
               placeholder="Enter Venue Description"
@@ -284,8 +294,8 @@ const VendorAddVenue = () => {
 
         <Box my={4} />
 
-        <Flex w="full" align="center" isRequired="true">
-          <FormControl id="venueMinPrice">
+        <Flex w="full" align="center">
+          <FormControl id="venueMinPrice" isRequired="true">
             <FormLabel>Venue Min Price</FormLabel>
             <Input
               type="text"
