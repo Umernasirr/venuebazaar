@@ -100,6 +100,41 @@ const VendorAddVenue = () => {
   const handleSubmit = () => {
     console.log(venueDetails);
     console.log(acceptedFiles, "accepted");
+    // console.log(isNaN(venueCapacity));
+    const venue = {
+      venueName,
+      venueType,
+      venueAddress,
+      venueTown: selectedTown,
+      venueCity,
+      venueTel1: venueTelephone1,
+      venueTel2: venueTelephone2,
+      venueEmail,
+      venueWebsite,
+      venueDescription,
+      venueMinPrice,
+      venueMaxPrice,
+      venueCapacity,
+      venueFacilities: selectedFacilities.map((data) => data.label),
+    };
+    const formData = new FormData();
+    acceptedFiles.map((files) => {
+      // console.log(files);
+      files.map((file) => {
+        // console.log(file[0], "ful");
+        formData.append("media", file);
+      });
+    });
+    // // formData.append("venue", venue);
+    formData.set("venue", JSON.stringify(venue));
+    // formData.
+    // console.log(formData.get("media"), "venueue");
+    service
+      .addVenue(formData)
+      .then((data) => {
+        console.log(data, "response data");
+      })
+      .catch((err) => console.log(err));
   };
 
   const getTowns = () => {
