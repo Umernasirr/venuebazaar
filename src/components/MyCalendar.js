@@ -18,18 +18,34 @@ const localizer = momentLocalizer(moment);
 
 const MyCalendar = ({ venue }) => {
   const [events, setEvents] = useState([]);
+
   const [showBookModal, setShowBookModal] = useState(false);
-  const [title, setTitle] = useState("");
   const [calenderObj, setCalenderObj] = useState({});
 
   const handleSelect = ({ start, end }) => {
-    if (title) {
-      const newEvent = {
-        start,
-        end,
-        title,
-      };
-      setEvents([...events, newEvent]);
+    const newEvent = {
+      start,
+      end,
+      title: "Booked",
+    };
+    setEvents([...events, newEvent]);
+
+    setShowBookModal(false);
+  };
+
+  const handleCheckBooked = ({ start, end }) => {
+    const today = new Date();
+
+    const foundEvent = events.filter(
+      (event) =>
+        event.start.toISOString().slice(0, 10) ===
+        start.toISOString().slice(0, 10)
+    );
+
+    if (foundEvent.length > 0 || start.getTime() < today.getTime()) {
+      return false;
+    } else {
+      return true;
     }
   };
 
@@ -41,13 +57,19 @@ const MyCalendar = ({ venue }) => {
         localizer={localizer}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 600, width: 600, fontSize: 20 }}
+        style={{ height: 600, width: 600, fontSize: 14 }}
         views={["month"]}
         onSelectEvent={(event) => alert(event.title)}
         onSelectSlot={({ start, end }) => {
           setCalenderObj({ start, end });
 
-          setShowBookModal(!showBookModal);
+          if (handleCheckBooked({ start, end })) {
+            setShowBookModal(!showBookModal);
+          } else {
+            alert(
+              "Date is Already Booked, or has passed. Kindly Select a Valid Date"
+            );
+          }
         }}
       />
 
@@ -62,10 +84,8 @@ const MyCalendar = ({ venue }) => {
           <ModalCloseButton />
           <ModalBody>
             <Flex w="full" justify="space-between">
-              <Text fontSize={20} fontWeight="semibold">
-                Book Event For:
-              </Text>
-              <Text fontSize={20}>
+              <Text fontSize={18}>Book Event For:</Text>
+              <Text fontSize={18}>
                 {calenderObj.start?.toISOString().slice(0, 10)}
               </Text>
             </Flex>
@@ -73,40 +93,30 @@ const MyCalendar = ({ venue }) => {
             <Box my={4} />
 
             <Flex w="full" justify="space-between">
-              <Text fontSize={20} fontWeight="semibold">
-                Book Event At:
-              </Text>
-              <Text fontSize={20}>{venue.name}</Text>
+              <Text fontSize={18}>Book Event At:</Text>
+              <Text fontSize={18}>{venue.name}</Text>
             </Flex>
 
             <Box my={4} />
 
             <Flex w="full" justify="space-between">
-              <Text fontSize={20} fontWeight="semibold">
-                Venue Cost:
-              </Text>
-              <Text fontSize={20}>{venue.price} PKR</Text>
+              <Text fontSize={18}>Venue Cost:</Text>
+              <Text fontSize={18}>{venue.price} PKR</Text>
             </Flex>
 
-            <Box my={4} />
-
-            <Text>Your Event's Title</Text>
-            <Box my={2} />
-
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-            <Box my={2} />
+            <Box my={8} boxShadow="sm" />
 
             <Text fontSize={18}>
               Are you sure you want to Confirm your Booking?
             </Text>
 
-            <Box my={4} />
+            <Box my={2} />
           </ModalBody>
 
           <ModalFooter>
             <Button
               bg="transparent"
-              color="brand.600"
+              color="gray.700"
               mr={3}
               onClick={() => setShowBookModal(false)}
             >
