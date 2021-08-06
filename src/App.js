@@ -9,6 +9,7 @@ import VendorAddVenue from "./containers/VendorAddVenue";
 import VendorDashboard from "./containers/VendorDashboard";
 import VenueDetails from "./containers/VenueDetails";
 import VendorEditVenue from "./containers/VendorEditVenue";
+import AdminDashboard from "./containers/AdminDashboard";
 //
 const App = () => {
   const [isJoinOpen, setIsJoinOpen] = useState(false);
@@ -30,6 +31,7 @@ const App = () => {
         <Route exact path="/vendorDashboard" component={VendorDashboard} />
         <Route exact path="/vendorAddVenue" component={VendorAddVenue} />
         <Route exact path="/vendorEditVenue/:id" component={VendorEditVenue} />
+        <Route exact path="/adminDashboard" component={AdminDashboard} />
       </Switch>
     </Flex>
   );
