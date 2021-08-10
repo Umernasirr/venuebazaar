@@ -83,18 +83,23 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
           >
             Corporate
           </Button>
-          <Button
-            _hover={{ outline: "none", color: "brand.100" }}
-            variant="link"
-            color="white"
-            mx={2}
-            fontSize={18}
-            fontWeight="normal"
-          >
-            Bazaar
-          </Button>
+          {currentUser && currentUser.role === "vendor" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+              onClick={() => {
+                history.push("/vendorDashboard");
+              }}
+            >
+              Vendor Dashboard
+            </Button>
+          )}
 
-          {currentUser && (
+          {currentUser && currentUser.role !== "user" && (
             <Button
               _hover={{ outline: "none", color: "brand.100" }}
               variant="link"

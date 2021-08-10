@@ -41,7 +41,6 @@ class PicturesWall extends React.Component {
       };
     });
     this.setState({ fileList: imageToUplaod });
-    console.log(imageToUplaod, "immm");
   };
   handlePreview = async (file) => {
     if (!file.url && !file.preview) {

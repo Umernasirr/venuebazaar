@@ -15,6 +15,8 @@ import {
 import { baseurl } from "../utility/constants/baseurl";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { service } from "../services/services";
+
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = ({ venue }) => {
@@ -36,10 +38,14 @@ const MyCalendar = ({ venue }) => {
       vendor: currentUser._id,
     };
 
-    await axios.post(`${baseurl}booking`, postObj);
+    const res = await service.createBooking(postObj);
 
-    setEvents([...events, newEvent]);
-    setShowBookModal(false);
+    if (res.data.success) {
+      setEvents([...events, newEvent]);
+      setShowBookModal(false);
+    } else {
+      console.log(res.data.error);
+    }
   };
 
   const handleCheckBooked = ({ start }) => {
@@ -59,7 +65,6 @@ const MyCalendar = ({ venue }) => {
   };
 
   useEffect(() => {
-    console.log(venue);
     const getBookings = async () => {
       const res = await axios.get(`${baseurl}booking/venue/${venue._id}`);
 
@@ -79,7 +84,6 @@ const MyCalendar = ({ venue }) => {
     getBookings();
   }, []);
 
-  console.log(venue);
   return (
     <Flex>
       <Calendar

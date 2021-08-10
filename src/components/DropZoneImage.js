@@ -6,29 +6,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
   const onDrop = useCallback((files) => {
     setAcceptedFiles([...acceptedFiles, files]);
-
-    // files.forEach((file) => {
-    //   const reader = new FileReader();
-
-    //   reader.onabort = () => console.log("file reading was aborted");
-    //   reader.onerror = () => console.log("file reading has failed");
-    //   reader.onload = () => {
-    //     // Do whatever you want with the file contents
-    //     const binaryStr = reader.result;
-    //     console.log(binaryStr);
-    //   };
-    //   reader.readAsArrayBuffer(file);
-    // });
   }, []);
-
-  const remove = (sFile) => {
-    // const tempAccepted = acceptedFiles[0].filter(
-    //   (file) => file.name !== sFile.name
-    // );
-    // console.log(tempAccepted[1]);
-    // setAcceptedFiles(tempAccepted);
-    // remove the file from the array
-  };
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

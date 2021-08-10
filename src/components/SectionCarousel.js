@@ -86,7 +86,7 @@ const SectionCarousel = () => {
             bg="white"
             onChange={(e) => setVenue(e.target.value)}
           >
-            {venues.length > 0 &&
+            {venues?.length > 0 &&
               venues.map(({ venueName, _id }, i) => (
                 <option key={_id} value={venueName}>
                   {venueName}

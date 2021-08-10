@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Footer from "../../components/Footer";
 import ActiveBookings from "./ActiveBookings";
-import { BOOKINGS } from "../../constants/index";
 import ManageVenues from "./ManageVenues";
 import { service } from "../../services/services";
 import { clearVenues, setVenues } from "../../redux/venue";
@@ -12,16 +11,13 @@ const VendorDashboard = () => {
   const user = useSelector((state) => state.user);
   const [localVenues, setLocalVenues] = useState([]);
   const [localPendingBooking, setlocalPendingBooking] = useState([]);
-  const [localBookings, setLocalBookings] = useState([]);
   const dispatch = useDispatch();
 
-  // console.log(currentUser._id);
   const history = useHistory();
   useEffect(() => {
     if (user === undefined || user.currentUser === undefined) {
       return;
     } else {
-      console.log(user);
       getVenues();
       getBookings();
     }
@@ -32,8 +28,6 @@ const VendorDashboard = () => {
       .getAllBookingsByVendor(user.currentUser._id)
       .then(({ data }) => {
         if (data.success) {
-          console.log(data.data);
-          setLocalBookings(data.data);
           let pendingBooking = [];
 
           data.data.map((booking) => {
@@ -55,7 +49,6 @@ const VendorDashboard = () => {
           dispatch(clearVenues());
           dispatch(setVenues(data.data));
           setLocalVenues(data.data);
-          console.log(data.data, "data");
         } else {
           console.log(data.error);
         }
@@ -64,7 +57,6 @@ const VendorDashboard = () => {
   };
 
   const acceptBooking = (booking) => {
-    // console.log(id, "idd");
     service
       .acceptBooking({ ...booking, bookingStatus: "confirm" })
       .then(({ data }) => {

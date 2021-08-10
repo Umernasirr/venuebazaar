@@ -1,5 +1,4 @@
 import { api } from "./apiServices";
-import { Store } from "./store";
 export const service = {
   login: (data) => {
     return api.invoke("POST", `auth/login`, data);
@@ -43,5 +42,8 @@ export const service = {
   },
   removeBooking: (id) => {
     return api.invoke(`DELETE`, `booking/delete/${id}`);
+  },
+  createBooking: (obj) => {
+    return api.invoke("POST", `booking`, obj);
   },
 };

@@ -27,18 +27,6 @@ const VenueDetails = ({ match }) => {
       .catch((err) => console.log(err));
   };
 
-  const selectedItem = {
-    id: 1,
-    name: "Medallion Banquet",
-    address: "Block 10, Gulshan-e-Iqbal, Rashid Minhas Road.",
-    price: "454 - 565",
-    description: "What a Garden...",
-    seating: 500,
-    type: "Banquet",
-    features: ["Projector", "Waitress", "Special Light", "Air – Condition"],
-    bookings: [],
-  };
-
   return (
     <Flex w="full" h="full" direction="column">
       <SectionCarousel />

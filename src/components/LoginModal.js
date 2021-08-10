@@ -64,7 +64,6 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
       service
         .login({ email, password })
         .then(({ data }) => {
-          console.log(data, "data");
           if (data.success) {
             Store.setUserToken(data.token);
             Store.setUser(JSON.stringify(data.user));

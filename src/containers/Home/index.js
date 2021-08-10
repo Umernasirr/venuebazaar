@@ -9,21 +9,6 @@ import SectionEventPlanner from "./SectionEventPlanner";
 import { service } from "../../services/services";
 import { setVenues } from "../../redux/venue";
 const Home = () => {
-  // const dispatch = useDispatch();
-  // const state = useSelector((state) => console.log(state, "state"));
-  // useEffect(() => {
-  //   service
-  //     .getVenues()
-  //     .then(({ data }) => {
-  //       if (data.success) {
-  //         console.log(data, "data coming from api");
-  //         dispatch(setVenues({ venues: data.data }));
-  //       } else {
-  //         console.log(data.error);
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
   return (
     <Flex w="full" h="full" direction="column">
       <SectionCarousel />

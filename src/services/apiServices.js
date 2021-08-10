@@ -72,15 +72,6 @@ export const api = {
   ) => {
     //   console.log(ot)
     // alert(token);
-    const config = {
-      method: method,
-      headers: {
-        Authorization: "Bearer " + token,
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-      },
-      body: data,
-    };
 
     return Axios({
       url: url,

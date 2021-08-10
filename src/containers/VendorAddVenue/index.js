@@ -10,7 +10,6 @@ import {
   SimpleGrid,
   Button,
 } from "@chakra-ui/react";
-import { useHistory, useLocation } from "react-router-dom";
 import ReactSelect from "react-select";
 import makeAnimated from "react-select/animated";
 import DropZoneImage from "../../components/DropZoneImage";
@@ -44,10 +43,8 @@ const VendorAddVenue = ({ match }) => {
     selectedFiles: [],
   });
   const [images, setImages] = useState([]);
-  const [error, setError] = useState("");
   const [acceptedFiles, setAcceptedFiles] = useState([]);
   const [imageChange, setImageChange] = useState([]);
-  const { state } = useLocation();
 
   const animatedComponents = makeAnimated();
 
@@ -67,27 +64,7 @@ const VendorAddVenue = ({ match }) => {
     venueMaxPrice,
     venueCapacity,
     selectedFacilities,
-    venueGoogleKey,
-    selectedFilesselectedFacilities,
   } = venueDetails;
-
-  const isFormEmpty = () => {
-    return (
-      !venueName.length ||
-      !venueType.length ||
-      !venueAddress.length ||
-      !selectedTown.length ||
-      !venueCity.length ||
-      !venueTelephone1.length ||
-      !venueEmail.length ||
-      !venueDescription.length ||
-      !venueMinPrice.length ||
-      !venueMaxPrice.length ||
-      !venueCapacity.length ||
-      !selectedFacilities.length ||
-      !selectedFilesselectedFacilities.length
-    );
-  };
 
   const colourStyles = {
     control: (styles) => ({
@@ -106,15 +83,12 @@ const VendorAddVenue = ({ match }) => {
   };
 
   const HandleEditVenue = (venue) => {
-    console.log(imageChange, "immu chungu");
     venue.images = imageChange;
 
-    console.log(venue, "venn");
     service
       .updateVenue(id, { venue })
       .then(({ data }) => {
         if (data.success) {
-          console.log(data.data, "lere");
         } else {
           console.log(data.error);
         }
@@ -175,14 +149,11 @@ const VendorAddVenue = ({ match }) => {
 
   const handleFacilitiesForUpdate = (facilities) => {
     let venueFacilities = [];
-    console.log(facilities, "facc");
     FACILITY_CONTENT.map((facility) => {
       if (facilities.includes(facility.label)) {
-        console.log(facility.label, "lub");
         venueFacilities.push(facility);
       }
     });
-    console.log(venueFacilities, "lmao");
     // setVenueDetails({
     //   ...venueDetails,
     //   selectedFacilities: venueFacilities,
@@ -191,15 +162,11 @@ const VendorAddVenue = ({ match }) => {
   };
 
   const getVenue = () => {
-    console.log(match.params.id);
     service
       .getVenue(match.params.id)
       .then(({ data }) => {
-        console.log(data, "dutu");
         if (data.success) {
-          console.log(data.data, "succ");
-          console.log(data.data);
-
+      
           const {
             venueName,
             venueType,
