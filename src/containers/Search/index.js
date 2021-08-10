@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
-import { VENUES } from "../../constants";
+import { VENUES, VENUE_CONTENT } from "../../constants";
 import SearchItem from "./SearchItem";
 
 const ACTIVE_BOOKINS = [1, 1, 1, 1, 1];
@@ -21,16 +21,22 @@ const Search = (match, location) => {
     const venueArea = queryStrings[1];
     const venueType = queryStrings[2];
 
+    console.log(venuesData);
+    console.log(venueType);
     let filteredVenues = venuesData.filter(
-      (v) => v.type === venueType || "" === venueType
+      (v) =>
+        v.venueType?.toLowerCase() === venueType.toLowerCase() ||
+        "" === venueType
     );
 
     const filteredVenues2 = filteredVenues.filter(
-      (v) => v.name === venue || "" === venue
+      (v) => v.venueName?.toLowerCase() === venue.toLowerCase() || "" === venue
     );
 
     const filteredVenues3 = filteredVenues2.filter(
-      (v) => v.address === venueArea || "" === venueArea
+      (v) =>
+        v.venueTown?.area?.toLowerCase() === venueArea.toLowerCase() ||
+        "" === venueArea
     );
 
     setFilteredVenues(filteredVenues3);

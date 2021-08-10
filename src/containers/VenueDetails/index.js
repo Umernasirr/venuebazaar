@@ -49,7 +49,7 @@ const VenueDetails = ({ match }) => {
             <ItemDetails selectedItem={venue} />
 
             <Flex align="center" justify="center" p={4}>
-              <MyCalendar venue={selectedItem} />
+              <MyCalendar venue={venue} />
             </Flex>
           </SimpleGrid>
         </Box>

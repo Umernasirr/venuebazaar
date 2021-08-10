@@ -3,7 +3,6 @@ import React from "react";
 import { AiOutlineCheckCircle, AiOutlineStar } from "react-icons/ai";
 
 const ItemDetails = ({ selectedItem }) => {
-  console.log(selectedItem, "selec");
   return (
     <Flex direction="column">
       <Text fontWeight="semibold" fontSize={24}>

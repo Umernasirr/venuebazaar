@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
@@ -11,29 +11,38 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Input,
 } from "@chakra-ui/react";
-
+import { baseurl } from "../utility/constants/baseurl";
+import axios from "axios";
+import { useSelector } from "react-redux";
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = ({ venue }) => {
   const [events, setEvents] = useState([]);
-
   const [showBookModal, setShowBookModal] = useState(false);
   const [calenderObj, setCalenderObj] = useState({});
-
-  const handleSelect = ({ start, end }) => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const handleSelect = async ({ start, end }) => {
     const newEvent = {
-      start,
-      end,
+      start: start,
+      end: start,
       title: "Booked",
     };
-    setEvents([...events, newEvent]);
 
+    const postObj = {
+      venue: venue._id,
+      bookingDate: start.toString(),
+      bookingStatus: "pending",
+      vendor: currentUser._id,
+    };
+
+    await axios.post(`${baseurl}booking`, postObj);
+
+    setEvents([...events, newEvent]);
     setShowBookModal(false);
   };
 
-  const handleCheckBooked = ({ start, end }) => {
+  const handleCheckBooked = ({ start }) => {
     const today = new Date();
 
     const foundEvent = events.filter(
@@ -49,6 +58,28 @@ const MyCalendar = ({ venue }) => {
     }
   };
 
+  useEffect(() => {
+    console.log(venue);
+    const getBookings = async () => {
+      const res = await axios.get(`${baseurl}booking/venue/${venue._id}`);
+
+      const bookings = res.data.bookings;
+
+      const tempEvents = bookings.map((booking) => {
+        return {
+          start: new Date(booking.bookingDate),
+          end: new Date(booking.bookingDate),
+          title: "Booked",
+        };
+      });
+
+      setEvents(tempEvents);
+    };
+
+    getBookings();
+  }, []);
+
+  console.log(venue);
   return (
     <Flex>
       <Calendar
@@ -94,14 +125,16 @@ const MyCalendar = ({ venue }) => {
 
             <Flex w="full" justify="space-between">
               <Text fontSize={18}>Book Event At:</Text>
-              <Text fontSize={18}>{venue.name}</Text>
+              <Text fontSize={18}>{venue.venueName}</Text>
             </Flex>
 
             <Box my={4} />
 
             <Flex w="full" justify="space-between">
               <Text fontSize={18}>Venue Cost:</Text>
-              <Text fontSize={18}>{venue.price} PKR</Text>
+              <Text fontSize={18}>
+                {venue.venueMinPrice} - {venue.venueMaxPrice} PKR
+              </Text>
             </Flex>
 
             <Box my={8} boxShadow="sm" />
