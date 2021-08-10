@@ -10,6 +10,7 @@ import {
   SimpleGrid,
   Button,
 } from "@chakra-ui/react";
+import { useHistory, useLocation } from "react-router-dom";
 import ReactSelect from "react-select";
 import makeAnimated from "react-select/animated";
 import DropZoneImage from "../../components/DropZoneImage";
@@ -18,10 +19,13 @@ import Footer from "../../components/Footer";
 import { Colors } from "../../utility/theme";
 import { service } from "../../services/services";
 import { FACILITY_CONTENT } from "../../constants";
+import PictureWall from "../../components/PictureWall";
 
-const VendorAddVenue = () => {
+const VendorAddVenue = ({ match }) => {
   const [towns, setTowns] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [venueDetails, setVenueDetails] = useState({
+    id: null,
     venueName: "",
     venueType: "",
     venueAddress: "",
@@ -39,12 +43,16 @@ const VendorAddVenue = () => {
     venueGoogleKey: "",
     selectedFiles: [],
   });
+  const [images, setImages] = useState([]);
   const [error, setError] = useState("");
   const [acceptedFiles, setAcceptedFiles] = useState([]);
+  const [imageChange, setImageChange] = useState([]);
+  const { state } = useLocation();
 
   const animatedComponents = makeAnimated();
 
   const {
+    id,
     venueName,
     venueType,
     venueAddress,
@@ -97,10 +105,40 @@ const VendorAddVenue = () => {
     },
   };
 
+  const HandleEditVenue = (venue) => {
+    console.log(imageChange, "immu chungu");
+    venue.images = imageChange;
+
+    console.log(venue, "venn");
+    service
+      .updateVenue(id, { venue })
+      .then(({ data }) => {
+        if (data.success) {
+          console.log(data.data, "lere");
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const HandleAddVenue = (acceptedFiles, venue) => {
+    const formData = new FormData();
+    acceptedFiles.map((files) => {
+      files.map((file) => {
+        formData.append("media", file);
+      });
+    });
+    formData.set("venue", JSON.stringify(venue));
+    service
+      .addVenue(formData)
+      .then((data) => {
+        console.log(data, "response data");
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleSubmit = () => {
-    console.log(venueDetails);
-    console.log(acceptedFiles, "accepted");
-    // console.log(isNaN(venueCapacity));
     const venue = {
       venueName,
       venueType,
@@ -117,24 +155,11 @@ const VendorAddVenue = () => {
       venueCapacity,
       venueFacilities: selectedFacilities.map((data) => data.label),
     };
-    const formData = new FormData();
-    acceptedFiles.map((files) => {
-      // console.log(files);
-      files.map((file) => {
-        // console.log(file[0], "ful");
-        formData.append("media", file);
-      });
-    });
-    // // formData.append("venue", venue);
-    formData.set("venue", JSON.stringify(venue));
-    // formData.
-    // console.log(formData.get("media"), "venueue");
-    service
-      .addVenue(formData)
-      .then((data) => {
-        console.log(data, "response data");
-      })
-      .catch((err) => console.log(err));
+    if (!isUpdate) {
+      HandleAddVenue(acceptedFiles, venue);
+    } else {
+      HandleEditVenue(venue);
+    }
   };
 
   const getTowns = () => {
@@ -147,7 +172,86 @@ const VendorAddVenue = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  const handleFacilitiesForUpdate = (facilities) => {
+    let venueFacilities = [];
+    console.log(facilities, "facc");
+    FACILITY_CONTENT.map((facility) => {
+      if (facilities.includes(facility.label)) {
+        console.log(facility.label, "lub");
+        venueFacilities.push(facility);
+      }
+    });
+    console.log(venueFacilities, "lmao");
+    // setVenueDetails({
+    //   ...venueDetails,
+    //   selectedFacilities: venueFacilities,
+    // });
+    return venueFacilities;
+  };
+
+  const getVenue = () => {
+    console.log(match.params.id);
+    service
+      .getVenue(match.params.id)
+      .then(({ data }) => {
+        console.log(data, "dutu");
+        if (data.success) {
+          console.log(data.data, "succ");
+          console.log(data.data);
+
+          const {
+            venueName,
+            venueType,
+            venueAddress,
+            venueTown,
+            venueCity,
+            venueTel1: venueTelephone1,
+            venueTel2: venueTelephone2,
+            venueEmail,
+            venueWebsite,
+            venueDescription,
+            venueMinPrice,
+            venueMaxPrice,
+            venueCapacity,
+            venueFacilities,
+            images,
+            _id,
+          } = data.data;
+          setImages(images);
+          setImageChange(images);
+          setVenueDetails({
+            venueName,
+            venueType,
+            venueAddress,
+            selectedTown: venueTown._id,
+            venueCity,
+            venueTelephone1,
+            venueTelephone2,
+            venueEmail,
+            venueWebsite,
+            venueDescription,
+            venueMinPrice,
+            venueMaxPrice,
+            venueCapacity,
+            selectedFacilities: handleFacilitiesForUpdate(venueFacilities),
+            id: _id,
+          });
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
+    if (match && match.params && match.params.id) {
+      setIsUpdate(true);
+
+      getVenue();
+      // setVenueDetails(...state.venue);
+    } else {
+      setIsUpdate(false);
+    }
     getTowns();
   }, []);
   return (
@@ -161,6 +265,7 @@ const VendorAddVenue = () => {
             <Input
               type="text"
               placeholder="Enter Venue Name"
+              value={venueName}
               bg="white"
               onChange={(e) =>
                 setVenueDetails({ ...venueDetails, venueName: e.target.value })
@@ -177,6 +282,7 @@ const VendorAddVenue = () => {
               bg="white"
               color="gray.400"
               _focus={{ color: "black" }}
+              value={venueType}
               onChange={(e) =>
                 setVenueDetails({ ...venueDetails, venueType: e.target.value })
               }
@@ -196,6 +302,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="Enter Venue Address"
               bg="white"
+              value={venueAddress}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -214,6 +321,7 @@ const VendorAddVenue = () => {
               bg="white"
               color="gray.400"
               _focus={{ color: "black" }}
+              value={selectedTown}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -234,6 +342,7 @@ const VendorAddVenue = () => {
             <Input
               type="text"
               placeholder="Enter Venue City"
+              value={venueCity}
               bg="white"
               onChange={(e) =>
                 setVenueDetails({ ...venueDetails, venueCity: e.target.value })
@@ -251,6 +360,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="Enter Telephone No.1 value"
               bg="white"
+              value={venueTelephone1}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -267,6 +377,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="Enter Telephone No.2 value"
               bg="white"
+              value={venueTelephone2}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -285,6 +396,7 @@ const VendorAddVenue = () => {
             <Input
               type="text"
               placeholder="Enter Email"
+              value={venueEmail}
               bg="white"
               onChange={(e) =>
                 setVenueDetails({ ...venueDetails, venueEmail: e.target.value })
@@ -299,6 +411,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="Venue Website"
               bg="white"
+              value={venueWebsite}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -317,6 +430,7 @@ const VendorAddVenue = () => {
             <Textarea
               placeholder="Enter Venue Description"
               bg="white"
+              value={venueDescription}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -336,6 +450,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="0"
               bg="white"
+              value={venueMinPrice}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -352,6 +467,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="0"
               bg="white"
+              value={venueMaxPrice}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -369,6 +485,7 @@ const VendorAddVenue = () => {
               type="text"
               placeholder="0"
               bg="white"
+              value={venueCapacity}
               onChange={(e) =>
                 setVenueDetails({
                   ...venueDetails,
@@ -382,7 +499,7 @@ const VendorAddVenue = () => {
         <Box my={4} />
 
         <Flex w="full" align="center" justify="left">
-          <SimpleGrid w="full" columns={[1, 1, 1, 2]}>
+          <SimpleGrid w="full" columns={[1, 1, 1, 1]}>
             <FormControl id="venueType" isRequired="true">
               <FormLabel>Select Facility</FormLabel>
 
@@ -391,6 +508,7 @@ const VendorAddVenue = () => {
                 components={animatedComponents}
                 isMulti
                 options={FACILITY_CONTENT}
+                value={selectedFacilities}
                 styles={colourStyles}
                 onChange={(items) =>
                   setVenueDetails({
@@ -400,33 +518,25 @@ const VendorAddVenue = () => {
                 }
               />
             </FormControl>
-
-            <FormControl
-              mt={{ base: 4, md: 0 }}
-              ml={{ base: 0, md: 2 }}
-              id="venueGoogleMap"
-            >
-              <FormLabel>Venue Google Map</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter Google Map Key"
-                bg="white"
-                onChange={(e) =>
-                  setVenueDetails({
-                    ...venueDetails,
-                    venueGoogleKey: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
           </SimpleGrid>
         </Flex>
 
-        <Flex p={0}>
-          <DropZoneImage
-            acceptedFiles={acceptedFiles}
-            setAcceptedFiles={setAcceptedFiles}
-          />
+        <Flex p={0} mt={3}>
+          {!isUpdate ? (
+            <DropZoneImage
+              acceptedFiles={acceptedFiles}
+              setAcceptedFiles={setAcceptedFiles}
+            />
+          ) : (
+            images.length > 0 &&
+            id && (
+              <PictureWall
+                images={images}
+                id={id}
+                setImageChange={setImageChange}
+              />
+            )
+          )}
         </Flex>
 
         {/*  */}

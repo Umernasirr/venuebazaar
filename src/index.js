@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store/index.js";
 import { theme } from "./utility/theme";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "antd/dist/antd.css";
 
 ReactDOM.render(
   <React.StrictMode>

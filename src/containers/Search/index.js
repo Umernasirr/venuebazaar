@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
 import { VENUES } from "../../constants";
@@ -9,18 +10,18 @@ import SearchItem from "./SearchItem";
 const ACTIVE_BOOKINS = [1, 1, 1, 1, 1];
 
 const Search = (match, location) => {
+  const { venues: venuesData } = useSelector((state) => state.venue);
   const { search } = useLocation();
-  const [venues, setVenues] = useState(VENUES);
+  const [venues, setVenues] = useState([]);
   const [filteredVenues, setFilteredVenues] = useState([]);
   useEffect(() => {
     const searchTxt = search.replace("?q=", "");
-
-    const queryStrings = searchTxt.split("&"); //feck u
+    const queryStrings = searchTxt.split("&");
     const venue = queryStrings[0];
     const venueArea = queryStrings[1];
     const venueType = queryStrings[2];
 
-    let filteredVenues = venues.filter(
+    let filteredVenues = venuesData.filter(
       (v) => v.type === venueType || "" === venueType
     );
 
@@ -50,9 +51,8 @@ const Search = (match, location) => {
       <Box mt={4} />
 
       <Box mx={{ base: 4, md: 16 }}>
-        {filteredVenues.map((venue) => (
-          <SearchItem {...venue} />
-        ))}
+        {filteredVenues &&
+          filteredVenues.map((venue) => <SearchItem venue={venue} />)}
       </Box>
 
       <Box my={4} />

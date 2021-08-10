@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -10,14 +10,31 @@ import {
 } from "@chakra-ui/react";
 import { SEARCH_AREA, SEARCH_TYPE, SEARCH_VENUE } from "../constants";
 import { useHistory } from "react-router-dom";
+import { service } from "../services/services";
+import { useSelector } from "react-redux";
 
 const venueBgImg = process.env.PUBLIC_URL + "/images/venue_bg.jpg";
 
 const SectionCarousel = () => {
+  const { venues } = useSelector((state) => state.venue);
   const [venue, setVenue] = useState("");
   const [venueArea, setVenueArea] = useState("");
   const [venueType, setVenueType] = useState("");
+  const [towns, setTowns] = useState([]);
   const history = useHistory();
+
+  useEffect(() => {
+    service
+      .getTowns()
+      .then(({ data }) => {
+        if (data.success) {
+          setTowns(data.data);
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSearch = () => {
     history.push(`/search?q=${venue}&${venueArea}&${venueType}`);
@@ -69,11 +86,12 @@ const SectionCarousel = () => {
             bg="white"
             onChange={(e) => setVenue(e.target.value)}
           >
-            {SEARCH_VENUE.map((venue, i) => (
-              <option key={i.toString()} value={venue}>
-                {venue}
-              </option>
-            ))}
+            {venues.length > 0 &&
+              venues.map(({ venueName, _id }, i) => (
+                <option key={_id} value={venueName}>
+                  {venueName}
+                </option>
+              ))}
           </Select>
 
           <Select
@@ -83,11 +101,12 @@ const SectionCarousel = () => {
             bg="white"
             onChange={(e) => setVenueArea(e.target.value)}
           >
-            {SEARCH_AREA.map((area, i) => (
-              <option key={i.toString()} value={area}>
-                {area}
-              </option>
-            ))}
+            {towns.length > 0 &&
+              towns.map((town, i) => (
+                <option key={town._id} value={town.area}>
+                  {town.area}
+                </option>
+              ))}
           </Select>
 
           <Select

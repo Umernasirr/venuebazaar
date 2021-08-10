@@ -3,15 +3,16 @@ import React from "react";
 import { AiOutlineCheckCircle, AiOutlineStar } from "react-icons/ai";
 
 const ItemDetails = ({ selectedItem }) => {
+  console.log(selectedItem, "selec");
   return (
     <Flex direction="column">
       <Text fontWeight="semibold" fontSize={24}>
-        {selectedItem.name}
+        {selectedItem.venueName}
       </Text>
 
       <Box my={1} />
       <Text color="gray.700" fontSize={16}>
-        {selectedItem.address}
+        {selectedItem.venueAddress}
       </Text>
 
       <Box my={{ base: 2, md: 4 }} />
@@ -22,13 +23,13 @@ const ItemDetails = ({ selectedItem }) => {
         width="700px"
         borderRightRadius={10}
         objectFit="cover"
-        src={"https://picsum.photos/600/600"}
+        src={selectedItem.images[0]}
       />
 
       <Box my={{ base: 2, md: 4 }} />
 
       <Text fontWeight="semibold" fontSize={24}>
-        About {selectedItem.name}
+        About {selectedItem.venueName}
       </Text>
       <Box my={1} />
 
@@ -43,7 +44,7 @@ const ItemDetails = ({ selectedItem }) => {
       <Box my={1} />
 
       <SimpleGrid columns={[2, 2, 2, 4]}>
-        {selectedItem.features.map((feature, i) => (
+        {selectedItem.venueFacilities.map((feature, i) => (
           <Flex key={i.toString()} w="full" justify="flex-start" align="center">
             <Icon color="brand.600" as={AiOutlineStar} />
             <Box mr={1} />
@@ -64,7 +65,7 @@ const ItemDetails = ({ selectedItem }) => {
           <Icon color="brand.600" mr={2} as={AiOutlineCheckCircle} />
           <Text fontSize="md">Seating: </Text>
           <Text fontSize={["xs", "xs", "xs", "md"]} ml={1}>
-            {selectedItem.seating} People
+            {selectedItem.venueCapacity} People
           </Text>
         </Flex>
 
@@ -75,7 +76,7 @@ const ItemDetails = ({ selectedItem }) => {
             Price:
           </Text>
           <Text fontSize="md" ml={1}>
-            {selectedItem.price}
+            {selectedItem.venueMaxPrice} - {selectedItem.venueMinPrice}
           </Text>
         </Flex>
       </SimpleGrid>

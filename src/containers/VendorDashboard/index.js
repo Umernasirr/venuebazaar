@@ -1,13 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
 import Footer from "../../components/Footer";
 import ActiveBookings from "./ActiveBookings";
 import { BOOKINGS } from "../../constants/index";
 import ManageVenues from "./ManageVenues";
+import { service } from "../../services/services";
+import { clearVenues, setVenues } from "../../redux/venue";
 const VendorDashboard = () => {
+  const user = useSelector((state) => state.user);
+  const [localVenues, setLocalVenues] = useState([]);
+  const dispatch = useDispatch();
+
+  // console.log(currentUser._id);
   const history = useHistory();
+  useEffect(() => {
+    if (user === undefined || user.currentUser === undefined) {
+      return;
+    } else {
+      console.log(user);
+      getVenues();
+    }
+  }, [useSelector, user]);
+
+  const getVenues = () => {
+    service
+      .getVenuesByVendor(user.currentUser._id)
+      .then(({ data }) => {
+        if (data.success) {
+          dispatch(clearVenues());
+          dispatch(setVenues(data.data));
+          setLocalVenues(data.data);
+          console.log(data.data, "data");
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteVenue = (id) => {
+    service
+      .deleteVenue(id)
+      .then(({ data }) => {
+        if (data.success) {
+          getVenues();
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+    console.log(id, "delte id");
+  };
+
   return (
     <Flex w="full" h="full" direction="column">
       <Box my={4} />
@@ -41,7 +87,12 @@ const VendorDashboard = () => {
         <Box my={4} borderColor="brand.600" borderWidth={1} />
         <SimpleGrid columns={[1, 1, 2, 2]}>
           <ActiveBookings bookings={BOOKINGS} />
-          <ManageVenues />
+          {localVenues && (
+            <ManageVenues
+              venues={localVenues}
+              handleDeleteVenue={handleDeleteVenue}
+            />
+          )}
         </SimpleGrid>
       </Box>
       <Box my={4} />

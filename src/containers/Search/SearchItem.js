@@ -11,7 +11,18 @@ import React from "react";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 
-const SearchItem = ({ id, name, address, type, features, price, seating }) => {
+const SearchItem = ({ venue }) => {
+  const {
+    venueName,
+    _id,
+    venueAddress,
+    venueType,
+    venueMaxPrice,
+    venueMinPrice,
+    venueFacilities,
+    venueCapacity,
+    images,
+  } = venue;
   const history = useHistory();
   return (
     <Flex
@@ -23,7 +34,7 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
       p={4}
       borderRadius={8}
       _hover={{ cursor: "pointer", bg: "brand.100" }}
-      onClick={() => history.push(`/venueDetails/${id}`)}
+      onClick={() => history.push(`/venueDetails/${_id}`)}
     >
       <Flex direction={["column", "column", "row"]} justify="center">
         <Image
@@ -32,7 +43,7 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
           width="400px"
           borderRightRadius={10}
           objectFit="cover"
-          src={"https://picsum.photos/600/600"}
+          src={images[0]}
         />
 
         <Flex
@@ -42,21 +53,21 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
           align={["center", "center", "flex-start", "flex-start"]}
         >
           <Text fontSize="2xl" textAlign={["center", "center", "left", "left"]}>
-            {name}
+            {venueName}
           </Text>
           <Box my={2} />
           <Text fontSize="lg" textAlign={["center", "center", "left", "left"]}>
-            {address}
+            {venueAddress}
           </Text>
           <Box my={1} />
 
           <Text color="blackAlpha.800" fontSize="lg">
-            {type}
+            {venueType}
           </Text>
           <Box my={1} />
 
           <SimpleGrid columns={[2, 2, 2, 4]}>
-            {features.map((feat, i) => (
+            {venueFacilities.map((feat, i) => (
               <Flex
                 key={i.toString()}
                 justify="flex-start"
@@ -89,14 +100,14 @@ const SearchItem = ({ id, name, address, type, features, price, seating }) => {
             <Text color="black" as="span" px={2}>
               Price:
             </Text>
-            {price}
+            {venueMaxPrice} - {venueMinPrice}
           </Text>
           <Box my={{ base: 1, md: 0 }} />
           <Text fontSize={["lg", "lg", "lg", "xl"]}>
             <Text color="black" as="span" px={2}>
               Seating:
             </Text>
-            {seating} People
+            {venueCapacity} People
           </Text>
         </Flex>
       </Flex>

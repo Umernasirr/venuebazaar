@@ -3,7 +3,7 @@ import React from "react";
 
 import { useHistory } from "react-router-dom";
 import { VENUES } from "../../constants/index";
-const ManageVenues = () => {
+const ManageVenues = ({ venues, handleDeleteVenue }) => {
   const history = useHistory();
   return (
     <Flex direction="column" mx={0} my={{ base: 4, md: 2 }}>
@@ -18,7 +18,7 @@ const ManageVenues = () => {
         w="full"
         align="space-between"
       >
-        {VENUES.map((venue) => (
+        {venues.map((venue) => (
           <Flex p={4} w="full">
             <Flex
               w="full"
@@ -38,7 +38,7 @@ const ManageVenues = () => {
                   width="260px"
                   objectFit="cover"
                   borderRadius={10}
-                  src={"https://picsum.photos/600/600"}
+                  src={venue.images[0]}
                 />
                 <Box mx={2} />
                 <SimpleGrid
@@ -52,15 +52,15 @@ const ManageVenues = () => {
                       fontSize={22}
                       fontWeight="semibold"
                     >
-                      {venue.name}
+                      {venue.venueName}
                     </Text>
                     <Box my={{ base: 1, md: 0 }} />
-                    <Text>{venue.description}</Text>
+                    <Text>{venue.venueDescription}</Text>
                     <Box my={1} />
-                    <Text>Price: {venue.price} PKR</Text>
+                    <Text>Price: {venue.venueMaxPrice} PKR</Text>
 
                     <Box my={1} />
-                    <Text>Seating: {venue.seating} People </Text>
+                    <Text>Seating: {venue.venueCapacity} People </Text>
                   </Flex>
 
                   <Flex
@@ -81,7 +81,9 @@ const ManageVenues = () => {
                         width={["120px", "120px", "60px", "60px"]}
                         _hover={{ bg: "brand.800" }}
                         onClick={() =>
-                          history.push(`/vendorEditVenue/${venue.id}`)
+                          history.push(`/vendorEditVenue/${venue._id}`, {
+                            venue: venue,
+                          })
                         }
                       >
                         Edit
@@ -90,6 +92,7 @@ const ManageVenues = () => {
                       <Button
                         bg={["gray.100", "transparent"]}
                         width={["120px", "120px", "60px", "60px"]}
+                        onClick={() => handleDeleteVenue(venue._id)}
                       >
                         Delete
                       </Button>
@@ -108,7 +111,7 @@ const ManageVenues = () => {
                           color: "black",
                         }}
                         onClick={() =>
-                          history.push(`/venueDetails/${venue.id}`)
+                          history.push(`/venueDetails/${venue._id}`)
                         }
                       >
                         Add Booking
