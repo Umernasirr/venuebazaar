@@ -1,11 +1,13 @@
 import { Flex, Button, Box, Stack } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/all";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const SubHeader = ({ setIsJoinOpen, setRole }) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   return (
     <Flex
@@ -92,23 +94,25 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
             Bazaar
           </Button>
 
-          <Button
-            _hover={{ outline: "none", color: "brand.100" }}
-            variant="link"
-            color="white"
-            mx={2}
-            fontSize={18}
-            fontWeight="normal"
-            onClick={() => {
-              history.push("/vendorAddVenue");
-            }}
-          >
-            Add Venue
-          </Button>
+          {currentUser && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+              onClick={() => {
+                history.push("/vendorAddVenue");
+              }}
+            >
+              Add Venue
+            </Button>
+          )}
         </Stack>
       </Box>
 
-      {!isOpen && (
+      {!currentUser && !isOpen && (
         <Flex px={4}>
           <Button
             _hover={{ outline: "none", color: "brand.100" }}

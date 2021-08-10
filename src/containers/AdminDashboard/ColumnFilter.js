@@ -3,7 +3,7 @@ import { Text } from "@chakra-ui/layout";
 import React from "react";
 
 const ColumnFilter = ({ column }) => {
-  const { filterValue, setFilter, Header } = column;
+  const { filterValue, setFilter } = column;
   return (
     <Text>
       <Input
