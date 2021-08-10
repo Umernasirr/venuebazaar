@@ -11,6 +11,8 @@ import { clearVenues, setVenues } from "../../redux/venue";
 const VendorDashboard = () => {
   const user = useSelector((state) => state.user);
   const [localVenues, setLocalVenues] = useState([]);
+  const [localPendingBooking, setlocalPendingBooking] = useState([]);
+  const [localBookings, setLocalBookings] = useState([]);
   const dispatch = useDispatch();
 
   // console.log(currentUser._id);
@@ -21,8 +23,29 @@ const VendorDashboard = () => {
     } else {
       console.log(user);
       getVenues();
+      getBookings();
     }
   }, [useSelector, user]);
+
+  const getBookings = () => {
+    service
+      .getAllBookingsByVendor(user.currentUser._id)
+      .then(({ data }) => {
+        if (data.success) {
+          console.log(data.data);
+          setLocalBookings(data.data);
+          let pendingBooking = [];
+
+          data.data.map((booking) => {
+            if (booking.bookingStatus === "pending") {
+              pendingBooking.push(booking);
+            }
+          });
+          setlocalPendingBooking(pendingBooking);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const getVenues = () => {
     service
@@ -33,6 +56,32 @@ const VendorDashboard = () => {
           dispatch(setVenues(data.data));
           setLocalVenues(data.data);
           console.log(data.data, "data");
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const acceptBooking = (booking) => {
+    // console.log(id, "idd");
+    service
+      .acceptBooking({ ...booking, bookingStatus: "confirm" })
+      .then(({ data }) => {
+        if (data.success) {
+          getBookings();
+        } else {
+          console.log(data.error);
+        }
+      });
+  };
+
+  const deleteBooking = (id) => {
+    service
+      .removeBooking(id)
+      .then(({ data }) => {
+        if (data.success) {
+          getBookings();
         } else {
           console.log(data.error);
         }
@@ -51,7 +100,6 @@ const VendorDashboard = () => {
         }
       })
       .catch((err) => console.log(err));
-    console.log(id, "delte id");
   };
 
   return (
@@ -86,7 +134,11 @@ const VendorDashboard = () => {
         </Flex>
         <Box my={4} borderColor="brand.600" borderWidth={1} />
         <SimpleGrid columns={[1, 1, 2, 2]}>
-          <ActiveBookings bookings={BOOKINGS} />
+          <ActiveBookings
+            bookings={localPendingBooking}
+            acceptBooking={acceptBooking}
+            deleteBooking={deleteBooking}
+          />
           {localVenues && (
             <ManageVenues
               venues={localVenues}

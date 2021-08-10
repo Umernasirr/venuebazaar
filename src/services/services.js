@@ -35,4 +35,13 @@ export const service = {
   getTowns: () => {
     return api.invoke("GET", `town/`);
   },
+  getAllBookingsByVendor: (id) => {
+    return api.invoke("GET", `booking/vendor/${id}`);
+  },
+  acceptBooking: (booking) => {
+    return api.invoke(`PUT`, `booking/accept`, booking);
+  },
+  removeBooking: (id) => {
+    return api.invoke(`DELETE`, `booking/delete/${id}`);
+  },
 };
