@@ -46,4 +46,12 @@ export const service = {
   createBooking: (obj) => {
     return api.invoke("POST", `booking`, obj);
   },
+
+  getUsers: () => {
+    return api.invoke("GET", "admin/users");
+  },
+
+  getVenuesAdmin: () => {
+    return api.invoke("GET", "admin/venues");
+  },
 };

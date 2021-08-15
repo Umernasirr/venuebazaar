@@ -12,6 +12,7 @@ import store from "./redux/store/index.js";
 import { theme } from "./utility/theme";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "antd/dist/antd.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 ReactDOM.render(
   <React.StrictMode>

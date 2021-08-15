@@ -31,10 +31,12 @@ const MyCalendar = ({ venue }) => {
       title: "Booked",
     };
 
+    const bookingStatus = currentUser.role === "vendor" ? "confirm" : "pending";
+
     const postObj = {
       venue: venue._id,
       bookingDate: start.toString(),
-      bookingStatus: "pending",
+      bookingStatus,
       vendor: currentUser._id,
     };
 

@@ -1,18 +1,21 @@
+import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
-import { Text } from "@chakra-ui/layout";
+import { Flex, Text } from "@chakra-ui/layout";
 import React from "react";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const ColumnFilter = ({ column }) => {
   const { filterValue, setFilter } = column;
   return (
-    <Text>
+    <Flex align="center">
+      <Icon as={AiOutlineSearch} fontSize={16} />
       <Input
         variant="flushed"
         value={filterValue || ""}
         h="30px"
         onChange={(e) => setFilter(e.target.value)}
       />
-    </Text>
+    </Flex>
   );
 };
 
