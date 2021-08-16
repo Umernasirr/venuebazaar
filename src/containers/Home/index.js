@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Flex, Box, Spacer } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
 import SectionHowItWorks from "./SectionHowItWorks";
 import SectionVenue from "./SectionVenue";
 import SectionEventPlanner from "./SectionEventPlanner";
-import { service } from "../../services/services";
-import { setVenues } from "../../redux/venue";
+
 const Home = () => {
   return (
     <Flex w="full" h="full" direction="column">

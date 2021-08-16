@@ -16,7 +16,7 @@ const SectionEventPlanner = (props) => {
       </Text>
       <SimpleGrid
         columns={[1, 1, 3, 3]}
-        px={[15, , 15, 20, 20]}
+        px={[15, 15, 20, 20]}
         py={5}
         spacing={5}
       >

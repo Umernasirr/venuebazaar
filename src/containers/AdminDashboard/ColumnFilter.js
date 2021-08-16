@@ -1,6 +1,6 @@
 import Icon from "@chakra-ui/icon";
 import { Input } from "@chakra-ui/input";
-import { Flex, Text } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 

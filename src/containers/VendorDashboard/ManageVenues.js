@@ -2,7 +2,6 @@ import { Box, Button, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 
 import { useHistory } from "react-router-dom";
-import { VENUES } from "../../constants/index";
 const ManageVenues = ({ venues, handleDeleteVenue }) => {
   const history = useHistory();
   return (

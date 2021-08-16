@@ -16,12 +16,13 @@ const AdminDashboard = () => {
   const [venues, setVenues] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(true);
+
   useEffect(() => {
     // Check if user aint admin
-
-    console.log("HEY");
     if (currentUser && currentUser.role !== "admin") {
-      history.push("/");
+      // history.push("/");
+      // UNCOMMENT THIS TALALA TO ONLY LET ROLE ADMIN GO HERE
     }
 
     const getVenues = async () => {
@@ -79,48 +80,49 @@ const AdminDashboard = () => {
   };
 
   const handleToDateChange = async (rowIdx, date) => {
-    setLoading(true);
+    setLoading2(true);
     const postObj = {
       toActiveDate: date,
-      fromActiveDate: venues[rowIdx].toActiveDate,
+      fromActiveDate: venues[rowIdx].fromActiveDate,
     };
 
     const data = await service.setVenueDates(venues[rowIdx]._id, postObj);
 
     if (data.data.success) {
       const tempVenues = venues.map((venue, idx) => {
-        if (idx === rowIdx) {
+        if (idx.toString() === rowIdx.toString()) {
           venue.toActiveDate = date;
         }
 
         return venue;
       });
 
+      console.log(tempVenues);
+
       setVenues(tempVenues);
-      setLoading(false);
+      setLoading2(false);
     }
   };
 
   const handleFromDateChange = async (rowIdx, date) => {
-    setLoading(true);
+    setLoading2(true);
     const postObj = {
-      toActiveDate: date,
-      fromActiveDate: venues[rowIdx].toActiveDate,
+      toActiveDate: venues[rowIdx].toActiveDate,
+      fromActiveDate: date,
     };
 
     const data = await service.setVenueDates(venues[rowIdx]._id, postObj);
-
     if (data.data.success) {
       const tempVenues = venues.map((venue, idx) => {
-        if (idx === rowIdx) {
+        if (idx.toString() === rowIdx.toString()) {
           venue.fromActiveDate = date;
         }
 
         return venue;
       });
 
-      setLoading(false);
       setVenues(tempVenues);
+      setLoading2(false);
     }
   };
 
@@ -264,7 +266,7 @@ const AdminDashboard = () => {
         },
       },
     ],
-    [loading, venues]
+    [loading2, venues]
   );
 
   return (
