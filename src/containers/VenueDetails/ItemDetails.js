@@ -1,6 +1,7 @@
 import { Box, Flex, Icon, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineCheckCircle, AiOutlineStar } from "react-icons/ai";
+import PicturesWall2 from "../../components/PictureWallShow";
 
 const ItemDetails = ({ selectedItem }) => {
   return (
@@ -24,6 +25,9 @@ const ItemDetails = ({ selectedItem }) => {
         objectFit="cover"
         src={selectedItem.images[0]}
       />
+      {selectedItem && selectedItem.images && (
+        <PicturesWall2 images={selectedItem.images} />
+      )}
 
       <Box my={{ base: 2, md: 4 }} />
 

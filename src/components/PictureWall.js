@@ -1,6 +1,6 @@
 import React from "react";
 import { Upload, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { AiOutlinePlus } from "react-icons/all";
 import { service } from "../services/services";
 
 function getBase64(file) {
@@ -90,7 +90,7 @@ class PicturesWall extends React.Component {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
-        <PlusOutlined />
+        <AiOutlinePlus />
         <div style={{ marginTop: 8 }}>Upload</div>
       </div>
     );
