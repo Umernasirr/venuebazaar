@@ -19,7 +19,7 @@ const SectionHowItWorks = () => {
         align="flex-start"
         justify="space-between"
         spacing="24px"
-        px={[15, , 15, 20, 20]}
+        px={[15, 15, 20, 20]}
         pb={20}
         w="full"
       >

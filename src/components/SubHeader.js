@@ -43,47 +43,59 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
           pt={[4, 4, 0, 0]}
           mx={4}
         >
-          <Button
-            _hover={{ outline: "none", color: "brand.100" }}
-            variant="link"
-            color="white"
-            mx={2}
-            fontSize={18}
-            fontWeight="normal"
-          >
-            Venue
-          </Button>
-          <Button
-            _hover={{ outline: "none", color: "brand.100" }}
-            variant="link"
-            color="white"
-            mx={2}
-            fontSize={18}
-            fontWeight="normal"
-          >
-            Ideas
-          </Button>
-          <Button
-            _hover={{ outline: "none", color: "brand.100" }}
-            variant="link"
-            color="white"
-            mx={2}
-            fontSize={18}
-            fontWeight="normal"
-          >
-            Deals
-          </Button>
-          <Button
-            _hover={{ outline: "none", color: "brand.100" }}
-            variant="link"
-            color="white"
-            mx={2}
-            fontSize={18}
-            fontWeight="normal"
-          >
-            Corporate
-          </Button>
-          {currentUser && currentUser.role === "vendor" && (
+          {currentUser?.role !== "vendor" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+              onClick={() => history.push("/")}
+            >
+              Venue
+            </Button>
+          )}
+
+          {currentUser?.role !== "vendor" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+            >
+              Ideas
+            </Button>
+          )}
+
+          {currentUser?.role !== "vendor" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+            >
+              Deals
+            </Button>
+          )}
+
+          {currentUser?.role !== "vendor" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+            >
+              Corporate
+            </Button>
+          )}
+          {currentUser && currentUser?.role === "vendor" && (
             <Button
               _hover={{ outline: "none", color: "brand.100" }}
               variant="link"
@@ -95,11 +107,27 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
                 history.push("/vendorDashboard");
               }}
             >
-              Vendor Dashboard
+              My Dashboard
             </Button>
           )}
 
-          {currentUser && currentUser.role !== "user" && (
+          {currentUser && currentUser?.role === "admin" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+              onClick={() => {
+                history.push("/adminDashboard");
+              }}
+            >
+              My Dashboard
+            </Button>
+          )}
+
+          {currentUser && currentUser?.role !== "user" && (
             <Button
               _hover={{ outline: "none", color: "brand.100" }}
               variant="link"

@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Select,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import { SEARCH_AREA, SEARCH_TYPE, SEARCH_VENUE } from "../constants";
+import { Box, Button, Flex, Select, Stack, Text } from "@chakra-ui/react";
+import { SEARCH_TYPE } from "../constants";
 import { useHistory } from "react-router-dom";
 import { service } from "../services/services";
 import { useSelector } from "react-redux";

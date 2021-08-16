@@ -15,16 +15,10 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import {
-  AiOutlineEye,
-  AiOutlineEyeInvisible,
-  AiOutlineKey,
-  AiOutlineMail,
-  AiOutlineUser,
-} from "react-icons/all";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/all";
 import React, { useState } from "react";
 import { service } from "../services/services";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Store } from "../services/store";
 import { setUser as setUserr } from "../redux/user";
 
@@ -113,7 +107,6 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
             <FormLabel>Password</FormLabel>
             <InputGroup w="full">
               <Input
-                type="text"
                 value={password}
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}

@@ -98,8 +98,8 @@ const VendorAddVenue = ({ match }) => {
 
   const HandleAddVenue = (acceptedFiles, venue) => {
     const formData = new FormData();
-    acceptedFiles.map((files) => {
-      files.map((file) => {
+    acceptedFiles.forEach((files) => {
+      files.forEach((file) => {
         formData.append("media", file);
       });
     });
@@ -149,7 +149,7 @@ const VendorAddVenue = ({ match }) => {
 
   const handleFacilitiesForUpdate = (facilities) => {
     let venueFacilities = [];
-    FACILITY_CONTENT.map((facility) => {
+    FACILITY_CONTENT.forEach((facility) => {
       if (facilities.includes(facility.label)) {
         venueFacilities.push(facility);
       }
@@ -166,7 +166,6 @@ const VendorAddVenue = ({ match }) => {
       .getVenue(match.params.id)
       .then(({ data }) => {
         if (data.success) {
-      
           const {
             venueName,
             venueType,

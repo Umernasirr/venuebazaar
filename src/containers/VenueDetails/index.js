@@ -1,4 +1,4 @@
-import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
@@ -8,6 +8,7 @@ import { service } from "../../services/services";
 const VenueDetails = ({ match }) => {
   const { id } = match.params;
   const [venue, setVenue] = useState({});
+  const [available, setAvailable] = useState(true);
 
   useEffect(() => {
     getVenueDetails();
@@ -19,6 +20,17 @@ const VenueDetails = ({ match }) => {
       .then(({ data }) => {
         if (data.success) {
           console.log(data, "datatat");
+
+          const now = new Date();
+
+          if (
+            new Date(data.data.fromActiveDate).getTime() <= now.getTime() &&
+            new Date(data.data.toActiveDate).getTime() > now.getTime()
+          ) {
+            setAvailable(true);
+          } else {
+            setAvailable(false);
+          }
           setVenue(data.data);
         } else {
           console.log(data.error);
@@ -37,7 +49,15 @@ const VenueDetails = ({ match }) => {
             <ItemDetails selectedItem={venue} />
 
             <Flex align="center" justify="center" p={4}>
-              <MyCalendar venue={venue} />
+              {available ? (
+                <MyCalendar venue={venue} />
+              ) : (
+                <Flex>
+                  <Text fontSize={32} fontWeight="bold" color="blackAlpha.600">
+                    Venue is not available for booking...
+                  </Text>
+                </Flex>
+              )}
             </Flex>
           </SimpleGrid>
         </Box>

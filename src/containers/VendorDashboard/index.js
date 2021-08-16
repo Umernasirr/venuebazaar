@@ -30,7 +30,7 @@ const VendorDashboard = () => {
         if (data.success) {
           let pendingBooking = [];
 
-          data.data.map((booking) => {
+          data.data.forEach((booking) => {
             if (booking.bookingStatus === "pending") {
               pendingBooking.push(booking);
             }

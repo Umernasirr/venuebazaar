@@ -25,16 +25,29 @@ const MyCalendar = ({ venue }) => {
   const [calenderObj, setCalenderObj] = useState({});
   const currentUser = useSelector((state) => state.user.currentUser);
   const handleSelect = async ({ start, end }) => {
+    if (!currentUser) {
+      setShowBookModal(false);
+      alert("Please Login to book a venue");
+      return;
+    }
+
     const newEvent = {
       start: start,
       end: start,
       title: "Booked",
     };
 
+    let bookingStatus = "pending";
+    if (currentUser) {
+      bookingStatus = currentUser.role === "vendor" ? "confirm" : "pending";
+    } else {
+      bookingStatus = "pending";
+    }
+
     const postObj = {
       venue: venue._id,
       bookingDate: start.toString(),
-      bookingStatus: "pending",
+      bookingStatus,
       vendor: currentUser._id,
     };
 

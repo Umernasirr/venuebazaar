@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Footer from "../../components/Footer";
 import SectionCarousel from "../../components/SectionCarousel";
-import { VENUES, VENUE_CONTENT } from "../../constants";
 import SearchItem from "./SearchItem";
-
-const ACTIVE_BOOKINS = [1, 1, 1, 1, 1];
 
 const Search = (match, location) => {
   const { venues: venuesData } = useSelector((state) => state.venue);
   const { search } = useLocation();
-  const [venues, setVenues] = useState([]);
   const [filteredVenues, setFilteredVenues] = useState([]);
   useEffect(() => {
     const searchTxt = search.replace("?q=", "");
@@ -21,8 +17,6 @@ const Search = (match, location) => {
     const venueArea = queryStrings[1];
     const venueType = queryStrings[2];
 
-    console.log(venuesData);
-    console.log(venueType);
     let filteredVenues = venuesData.filter(
       (v) =>
         v.venueType?.toLowerCase() === venueType.toLowerCase() ||
@@ -39,8 +33,18 @@ const Search = (match, location) => {
         "" === venueArea
     );
 
+    // const now = new Date();
+
+    // const filteredVenues4 = filteredVenues3.filter((venue) => {
+    //   console.log(now, new Date(venue.fromActiveDate));
+    //   return (
+    //     new Date(venue.fromActiveDate).getTime() <= now.getTime() &&
+    //     new Date(venue.toActiveDate).getTime() > now.getTime()
+    //   );
+    // });
+
     setFilteredVenues(filteredVenues3);
-  }, [search]);
+  }, [search, venuesData]);
 
   return (
     <Flex w="full" h="full" direction="column">

@@ -1,8 +1,6 @@
-import { IconButton } from "@chakra-ui/button";
 import { Box, Flex, Text } from "@chakra-ui/layout";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
   const onDrop = useCallback((files) => {
     setAcceptedFiles([...acceptedFiles, files]);
@@ -48,13 +46,6 @@ const DropZoneImage = ({ acceptedFiles, setAcceptedFiles }) => {
               <Flex align="center">
                 <Text>{file.name}</Text>
                 <Box mx={1} />
-                {/* <IconButton
-                  bg="transparent"
-                  onClick={() => remove(file)}
-                  color="brand.600"
-                  fontSize={24}
-                  icon={<AiOutlineCloseCircle />}
-                /> */}
               </Flex>
             ))
           )

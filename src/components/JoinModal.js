@@ -16,15 +16,8 @@ import {
   InputRightElement,
   InputGroup,
   Text,
-  Flex,
 } from "@chakra-ui/react";
-import {
-  AiOutlineEye,
-  AiOutlineEyeInvisible,
-  AiOutlineKey,
-  AiOutlineMail,
-  AiOutlineUser,
-} from "react-icons/all";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/all";
 import React, { useState } from "react";
 import { service } from "../services/services";
 
@@ -180,7 +173,6 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
             <FormLabel>Password</FormLabel>
             <InputGroup w="full">
               <Input
-                type="text"
                 value={password}
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
@@ -203,7 +195,6 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
             <FormLabel>Confirm Password</FormLabel>
             <InputGroup>
               <Input
-                type="text"
                 value={confirmPassword}
                 type={showConfirmPassword ? "text" : "password"}
                 onChange={(e) =>
