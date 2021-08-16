@@ -99,6 +99,22 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
             </Button>
           )}
 
+          {currentUser && currentUser.role === "admin" && (
+            <Button
+              _hover={{ outline: "none", color: "brand.100" }}
+              variant="link"
+              color="white"
+              mx={2}
+              fontSize={18}
+              fontWeight="normal"
+              onClick={() => {
+                history.push("/adminDashboard");
+              }}
+            >
+              Admin Dashboard
+            </Button>
+          )}
+
           {currentUser && currentUser.role !== "user" && (
             <Button
               _hover={{ outline: "none", color: "brand.100" }}

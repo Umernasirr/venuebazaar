@@ -9,7 +9,6 @@ import Search from "./containers/Search";
 import VendorAddVenue from "./containers/VendorAddVenue";
 import VendorDashboard from "./containers/VendorDashboard";
 import VenueDetails from "./containers/VenueDetails";
-import VendorEditVenue from "./containers/VendorEditVenue";
 import AdminDashboard from "./containers/AdminDashboard";
 import { service } from "./services/services";
 import { useHistory } from "react-router-dom";

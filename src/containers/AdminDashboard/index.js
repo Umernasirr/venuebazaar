@@ -5,20 +5,33 @@ import ColumnFilter from "./ColumnFilter";
 import { service } from "../../services/services";
 
 import DatePicker from "react-datepicker";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 const AdminDashboard = () => {
+  const history = useHistory();
+  const { currentUser } = useSelector((state) => state.user);
   const [vendors, setVendors] = useState([]);
   const [users, setUsers] = useState([]);
   const [venues, setVenues] = useState([]);
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    // Check if user aint admin
+
+    console.log("HEY");
+    if (currentUser && currentUser.role !== "admin") {
+      history.push("/");
+    }
+
     const getVenues = async () => {
+      setLoading(true);
+
       const res = await service.getVenuesAdmin();
 
       setVenues(res.data.data);
 
-      console.log(res.data.data[0]);
+      setLoading(false);
     };
 
     const getUsers = async () => {
@@ -45,19 +58,70 @@ const AdminDashboard = () => {
       getUsers();
       getVenues();
     }
-  }, []);
+  }, [currentUser]);
 
-  const handleUserChangeActive = (rowId, value) => {
-    console.log(rowId, value);
-    console.log(users[rowId]);
+  const handleUserChangeActive = async (rowId, value) => {
+    const id = users[rowId]._id;
+
+    const postObj = {
+      accountActive: value,
+    };
+    await service.setAccountAvailability(id, postObj);
   };
 
-  const handleVendorChangeActive = (rowId, value) => {
-    console.log(rowId, value);
-    console.log(vendors[rowId]);
+  const handleVendorChangeActive = async (rowId, value) => {
+    const id = vendors[rowId]._id;
+
+    const postObj = {
+      accountActive: value,
+    };
+    await service.setAccountAvailability(id, postObj);
   };
-  const handleDateChange = (rowId, date) => {
-    console.log(rowId, date);
+
+  const handleToDateChange = async (rowIdx, date) => {
+    setLoading(true);
+    const postObj = {
+      toActiveDate: date,
+      fromActiveDate: venues[rowIdx].toActiveDate,
+    };
+
+    const data = await service.setVenueDates(venues[rowIdx]._id, postObj);
+
+    if (data.data.success) {
+      const tempVenues = venues.map((venue, idx) => {
+        if (idx === rowIdx) {
+          venue.toActiveDate = date;
+        }
+
+        return venue;
+      });
+
+      setVenues(tempVenues);
+      setLoading(false);
+    }
+  };
+
+  const handleFromDateChange = async (rowIdx, date) => {
+    setLoading(true);
+    const postObj = {
+      toActiveDate: date,
+      fromActiveDate: venues[rowIdx].toActiveDate,
+    };
+
+    const data = await service.setVenueDates(venues[rowIdx]._id, postObj);
+
+    if (data.data.success) {
+      const tempVenues = venues.map((venue, idx) => {
+        if (idx === rowIdx) {
+          venue.fromActiveDate = date;
+        }
+
+        return venue;
+      });
+
+      setLoading(false);
+      setVenues(tempVenues);
+    }
   };
 
   const columnUsers = React.useMemo(
@@ -175,7 +239,7 @@ const AdminDashboard = () => {
           return (
             <DatePicker
               selected={fromActiveDate}
-              onChange={(date) => console.log(date)}
+              onChange={(date) => handleFromDateChange(props.row.id, date)}
             />
           );
         },
@@ -194,13 +258,13 @@ const AdminDashboard = () => {
           return (
             <DatePicker
               selected={toActiveDate}
-              onChange={(date) => handleDateChange(props.row.id, date)}
+              onChange={(date) => handleToDateChange(props.row.id, date)}
             />
           );
         },
       },
     ],
-    [loading]
+    [loading, venues]
   );
 
   return (
