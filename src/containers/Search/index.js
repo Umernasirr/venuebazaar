@@ -33,17 +33,17 @@ const Search = (match, location) => {
         "" === venueArea
     );
 
-    const now = new Date();
+    // const now = new Date();
 
-    const filteredVenues4 = filteredVenues3.filter((venue) => {
-      console.log(now, new Date(venue.fromActiveDate));
-      return (
-        new Date(venue.fromActiveDate).getTime() <= now.getTime() &&
-        new Date(venue.toActiveDate).getTime() > now.getTime()
-      );
-    });
+    // const filteredVenues4 = filteredVenues3.filter((venue) => {
+    //   console.log(now, new Date(venue.fromActiveDate));
+    //   return (
+    //     new Date(venue.fromActiveDate).getTime() <= now.getTime() &&
+    //     new Date(venue.toActiveDate).getTime() > now.getTime()
+    //   );
+    // });
 
-    setFilteredVenues(filteredVenues4);
+    setFilteredVenues(filteredVenues3);
   }, [search, venuesData]);
 
   return (
