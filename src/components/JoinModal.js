@@ -30,6 +30,7 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -85,9 +86,11 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
         role: role.toString().toLowerCase(),
         phoneNo: "+92" + phoneNo,
       };
+      setLoading(true);
       service
         .register(newUser)
         .then(({ data }) => {
+          setLoading(false);
           if (data.success) {
             setError("");
             setMessage(
@@ -106,7 +109,10 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
             setError(data.error);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
     }
   };
 
@@ -234,6 +240,7 @@ const JoinModal = ({ isJoinOpen, setIsJoinOpen, role }) => {
           <Button
             variant="ghost"
             bg="brand.600"
+            loading={loading}
             _hover={{ backgroundColor: "brand.800" }}
             color="white"
             px={8}

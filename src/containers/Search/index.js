@@ -11,6 +11,9 @@ const Search = (match, location) => {
   const { search } = useLocation();
   const [filteredVenues, setFilteredVenues] = useState([]);
   useEffect(() => {
+    if (!venuesData) {
+      return;
+    }
     const searchTxt = search.replace("?q=", "");
     const queryStrings = searchTxt.split("&");
     const venue = queryStrings[0];
@@ -36,7 +39,7 @@ const Search = (match, location) => {
     // const now = new Date();
 
     // const filteredVenues4 = filteredVenues3.filter((venue) => {
-    //   console.log(now, new Date(venue.fromActiveDate));
+
     //   return (
     //     new Date(venue.fromActiveDate).getTime() <= now.getTime() &&
     //     new Date(venue.toActiveDate).getTime() > now.getTime()
@@ -44,7 +47,7 @@ const Search = (match, location) => {
     // });
 
     setFilteredVenues(filteredVenues3);
-  }, [search, venuesData]);
+  }, [search, venuesData, useSelector]);
 
   return (
     <Flex w="full" h="full" direction="column">

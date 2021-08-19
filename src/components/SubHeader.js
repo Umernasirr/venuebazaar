@@ -127,7 +127,7 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
             </Button>
           )}
 
-          {currentUser && currentUser?.role !== "user" && (
+          {/* {currentUser && currentUser?.role !== "user" && (
             <Button
               _hover={{ outline: "none", color: "brand.100" }}
               variant="link"
@@ -141,7 +141,7 @@ const SubHeader = ({ setIsJoinOpen, setRole }) => {
             >
               Add Venue
             </Button>
-          )}
+          )} */}
         </Stack>
       </Box>
 

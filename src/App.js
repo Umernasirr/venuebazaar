@@ -14,7 +14,7 @@ import AdminDashboard from "./containers/AdminDashboard";
 import { service } from "./services/services";
 import { useHistory } from "react-router-dom";
 import { setVenues } from "./redux/venue";
-import { setUser } from "./redux/user";
+import { clearUser, setUser } from "./redux/user";
 import { Store } from "./services/store";
 //
 const App = () => {
@@ -26,7 +26,31 @@ const App = () => {
   useEffect(() => {
     try {
       if (JSON.parse(Store.getUser())) {
-        dispatch(setUser(JSON.parse(Store.getUser())));
+        service.getMe().then(({ data }) => {
+          if (data.success) {
+            dispatch(setUser(data.user));
+            const user = data.user;
+            if (!user.accountActive) {
+              dispatch(clearUser());
+              Store.logoutAndReset();
+              history.push("/");
+            }
+
+            if (history.location.pathname === "/" && user.role === "vendor") {
+              history.push("/vendorDashboard");
+            } else if (
+              history.location.pathname === "/" &&
+              user.role === "admin"
+            ) {
+              history.push("/adminDashboard");
+            }
+          } else {
+            dispatch(clearUser());
+            Store.logoutAndReset();
+            history.push("/");
+          }
+        });
+        // dispatch(setUser(JSON.parse(Store.getUser())));
       }
     } catch (error) {
       // history.pus

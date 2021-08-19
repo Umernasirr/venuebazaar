@@ -42,7 +42,6 @@ Axios.interceptors.response.use(
 );
 export const api = {
   invoke: (method, url, data = {}, token = Store.getUserToken(null)) => {
-    console.log(token);
     let progress = data && data.progress === false ? data.progress : true;
     // console.log('progress',progress)
     let param = null;

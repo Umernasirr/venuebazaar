@@ -9,9 +9,12 @@ import {
   Select,
   SimpleGrid,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import ReactSelect from "react-select";
 import makeAnimated from "react-select/animated";
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import DropZoneImage from "../../components/DropZoneImage";
 import Footer from "../../components/Footer";
 
@@ -19,10 +22,14 @@ import { Colors } from "../../utility/theme";
 import { service } from "../../services/services";
 import { FACILITY_CONTENT } from "../../constants";
 import PictureWall from "../../components/PictureWall";
+import Page from "react-page-loading";
 
 const VendorAddVenue = ({ match }) => {
   const [towns, setTowns] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [messages, setMessages] = useState("");
+  const [color, setColor] = useState("");
+  const history = useHistory();
   const [venueDetails, setVenueDetails] = useState({
     id: null,
     venueName: "",
@@ -44,7 +51,9 @@ const VendorAddVenue = ({ match }) => {
   });
   const [images, setImages] = useState([]);
   const [acceptedFiles, setAcceptedFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [imageChange, setImageChange] = useState([]);
+  const user = useSelector((state) => state.user);
 
   const animatedComponents = makeAnimated();
 
@@ -84,32 +93,67 @@ const VendorAddVenue = ({ match }) => {
 
   const HandleEditVenue = (venue) => {
     venue.images = imageChange;
-
+    setLoading(true);
     service
       .updateVenue(id, { venue })
       .then(({ data }) => {
         if (data.success) {
+          setLoading(false);
+          setMessages("Venue Updated successfully");
+          setColor("green");
+          setTimeout(() => {
+            setMessages("");
+          }, 4000);
         } else {
+          setLoading(false);
           console.log(data.error);
+          setMessages(data.error);
+          setColor("red");
+          setTimeout(() => {
+            setMessages("");
+          }, 4000);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
 
   const HandleAddVenue = (acceptedFiles, venue) => {
+    setLoading(true);
     const formData = new FormData();
     acceptedFiles.forEach((files) => {
       files.forEach((file) => {
         formData.append("media", file);
       });
     });
+
     formData.set("venue", JSON.stringify(venue));
     service
       .addVenue(formData)
-      .then((data) => {
-        console.log(data, "response data");
+      .then(({ data }) => {
+        if (data.success) {
+          setLoading(false);
+          setMessages("Venue added successfully");
+          setColor("green");
+          setTimeout(() => {
+            setMessages("");
+          }, 4000);
+        } else {
+          setLoading(false);
+          console.log(data.error);
+          setMessages(data.error);
+          setColor("red");
+          setTimeout(() => {
+            setMessages("");
+          }, 4000);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
 
   const handleSubmit = () => {
@@ -209,6 +253,27 @@ const VendorAddVenue = ({ match }) => {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    if (user === undefined || user.currentUser === undefined) {
+      history.push("/");
+      return;
+    } else {
+      const currentUser = user.currentUser;
+      if (!currentUser) {
+        history.push("/");
+      }
+      if (currentUser && currentUser.role !== "vendor") {
+        // history.push("/");
+        // UNCOMMENT THIS TALALA TO ONLY LET ROLE ADMIN GO HERE
+        if (currentUser.role === "admin") {
+          history.push("/adminDashboard");
+        } else {
+          history.push("/");
+        }
+      }
+    }
+  }, [useSelector, user]);
   useEffect(() => {
     if (match && match.params && match.params.id) {
       setIsUpdate(true);
@@ -222,313 +287,339 @@ const VendorAddVenue = ({ match }) => {
   }, []);
   return (
     <Flex w="full" h="full" direction="column">
-      <Box my={4} />
-
-      <Box mx={{ sm: 0, md: 32 }} bg="gray.100" p={4} borderRadius={8}>
-        <Flex w="full" align="center">
-          <FormControl id="venueName" isRequired="true">
-            <FormLabel>Venue Name</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Venue Name"
-              value={venueName}
-              bg="white"
-              onChange={(e) =>
-                setVenueDetails({ ...venueDetails, venueName: e.target.value })
-              }
-            />
-          </FormControl>
-          <Box mx={2} />
-
-          <FormControl id="venueType" isRequired="true">
-            <FormLabel>Venue Type</FormLabel>
-
-            <Select
-              placeholder="Select Type"
-              bg="white"
-              color="gray.400"
-              _focus={{ color: "black" }}
-              value={venueType}
-              onChange={(e) =>
-                setVenueDetails({ ...venueDetails, venueType: e.target.value })
-              }
-            >
-              <option value="normal">Normal</option>
-              <option value="banquet">Banquet</option>
-            </Select>
-          </FormControl>
-        </Flex>
-
+      <Page loader={"bar"} color={"#E62878"} size={12}>
         <Box my={4} />
 
-        <Flex w="full" align="center">
-          <FormControl id="venueAddress" isRequired="true">
-            <FormLabel>Venue Address</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Venue Address"
-              bg="white"
-              value={venueAddress}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueAddress: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-          <Box mx={{ base: 1, md: 2 }} />
-
-          <FormControl id="venueType" isRequired="true">
-            <FormLabel>Select Town</FormLabel>
-
-            <Select
-              placeholder="Select Town"
-              bg="white"
-              color="gray.400"
-              _focus={{ color: "black" }}
-              value={selectedTown}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  selectedTown: e.target.value,
-                })
-              }
-            >
-              {towns &&
-                towns.map((town) => (
-                  <option value={town._id}>{town.area}</option>
-                ))}
-            </Select>
-          </FormControl>
-          <Box mx={{ base: 1, md: 2 }} />
-
-          <FormControl id="venueAddress" isRequired="true">
-            <FormLabel>Venue City</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Venue City"
-              value={venueCity}
-              bg="white"
-              onChange={(e) =>
-                setVenueDetails({ ...venueDetails, venueCity: e.target.value })
-              }
-            />
-          </FormControl>
-        </Flex>
-
-        <Box my={4} />
-
-        <Flex w="full" align="center">
-          <FormControl id="venueTelephone1" isRequired="true">
-            <FormLabel>Venue Telephone No.1</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Telephone No.1 value"
-              bg="white"
-              value={venueTelephone1}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueTelephone1: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-          <Box mx={2} />
-
-          <FormControl id="venueTelephone2">
-            <FormLabel>Venue Telephone No.2</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Telephone No.2 value"
-              bg="white"
-              value={venueTelephone2}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueTelephone2: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-        </Flex>
-
-        <Box my={4} />
-
-        <Flex w="full" align="center">
-          <FormControl id="venueEmail" isRequired="true">
-            <FormLabel>Email Address</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Email"
-              value={venueEmail}
-              bg="white"
-              onChange={(e) =>
-                setVenueDetails({ ...venueDetails, venueEmail: e.target.value })
-              }
-            />
-          </FormControl>
-          <Box mx={2} />
-
-          <FormControl id="venueWebsite">
-            <FormLabel>Venue Website</FormLabel>
-            <Input
-              type="text"
-              placeholder="Venue Website"
-              bg="white"
-              value={venueWebsite}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueWebsite: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-        </Flex>
-
-        <Box my={4} />
-
-        <Flex w="full" align="center">
-          <FormControl id="venueDescription" isRequired="true">
-            <FormLabel>Venue Description</FormLabel>
-            <Textarea
-              placeholder="Enter Venue Description"
-              bg="white"
-              value={venueDescription}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueDescription: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-        </Flex>
-
-        <Box my={4} />
-
-        <Flex w="full" align="center">
-          <FormControl id="venueMinPrice" isRequired="true">
-            <FormLabel>Venue Min Price</FormLabel>
-            <Input
-              type="text"
-              placeholder="0"
-              bg="white"
-              value={venueMinPrice}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueMinPrice: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-          <Box mx={2} />
-
-          <FormControl id="venueMaxPrice" isRequired="true">
-            <FormLabel>Venue Max Price</FormLabel>
-            <Input
-              type="text"
-              placeholder="0"
-              bg="white"
-              value={venueMaxPrice}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueMaxPrice: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-
-          <Box mx={2} />
-
-          <FormControl id="venueCapacity" isRequired="true">
-            <FormLabel>Venue Capacity</FormLabel>
-            <Input
-              type="text"
-              placeholder="0"
-              bg="white"
-              value={venueCapacity}
-              onChange={(e) =>
-                setVenueDetails({
-                  ...venueDetails,
-                  venueCapacity: e.target.value,
-                })
-              }
-            />
-          </FormControl>
-        </Flex>
-
-        <Box my={4} />
-
-        <Flex w="full" align="center" justify="left">
-          <SimpleGrid w="full" columns={[1, 1, 1, 1]}>
-            <FormControl id="venueType" isRequired="true">
-              <FormLabel>Select Facility</FormLabel>
-
-              <ReactSelect
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                options={FACILITY_CONTENT}
-                value={selectedFacilities}
-                styles={colourStyles}
-                onChange={(items) =>
+        <Box mx={{ sm: 0, md: 32 }} bg="gray.100" p={4} borderRadius={8}>
+          <Flex w="full" align="center">
+            <FormControl id="venueName" isRequired="true">
+              <FormLabel>Venue Name</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Venue Name"
+                value={venueName}
+                bg="white"
+                onChange={(e) =>
                   setVenueDetails({
                     ...venueDetails,
-                    selectedFacilities: items,
+                    venueName: e.target.value,
                   })
                 }
               />
             </FormControl>
-          </SimpleGrid>
-        </Flex>
+            <Box mx={2} />
 
-        <Flex p={0} mt={3}>
-          {!isUpdate ? (
-            <DropZoneImage
-              acceptedFiles={acceptedFiles}
-              setAcceptedFiles={setAcceptedFiles}
-            />
-          ) : (
-            images.length > 0 &&
-            id && (
-              <PictureWall
-                images={images}
-                id={id}
-                setImageChange={setImageChange}
+            <FormControl id="venueType" isRequired="true">
+              <FormLabel>Venue Type</FormLabel>
+
+              <Select
+                placeholder="Select Type"
+                bg="white"
+                color="gray.400"
+                _focus={{ color: "black" }}
+                value={venueType}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueType: e.target.value,
+                  })
+                }
+              >
+                <option value="normal">Normal</option>
+                <option value="banquet">Banquet</option>
+              </Select>
+            </FormControl>
+          </Flex>
+
+          <Box my={4} />
+
+          <Flex w="full" align="center">
+            <FormControl id="venueAddress" isRequired="true">
+              <FormLabel>Venue Address</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Venue Address"
+                bg="white"
+                value={venueAddress}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueAddress: e.target.value,
+                  })
+                }
               />
-            )
-          )}
-        </Flex>
+            </FormControl>
+            <Box mx={{ base: 1, md: 2 }} />
 
-        {/*  */}
+            <FormControl id="venueType" isRequired="true">
+              <FormLabel>Select Town</FormLabel>
+
+              <Select
+                placeholder="Select Town"
+                bg="white"
+                color="gray.400"
+                _focus={{ color: "black" }}
+                value={selectedTown}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    selectedTown: e.target.value,
+                  })
+                }
+              >
+                {towns &&
+                  towns.map((town) => (
+                    <option value={town._id}>{town.area}</option>
+                  ))}
+              </Select>
+            </FormControl>
+            <Box mx={{ base: 1, md: 2 }} />
+
+            <FormControl id="venueAddress" isRequired="true">
+              <FormLabel>Venue City</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Venue City"
+                value={venueCity}
+                bg="white"
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueCity: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+          </Flex>
+
+          <Box my={4} />
+
+          <Flex w="full" align="center">
+            <FormControl id="venueTelephone1" isRequired="true">
+              <FormLabel>Venue Telephone No.1</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Telephone No.1 value"
+                bg="white"
+                value={venueTelephone1}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueTelephone1: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+            <Box mx={2} />
+
+            <FormControl id="venueTelephone2">
+              <FormLabel>Venue Telephone No.2</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Telephone No.2 value"
+                bg="white"
+                value={venueTelephone2}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueTelephone2: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+          </Flex>
+
+          <Box my={4} />
+
+          <Flex w="full" align="center">
+            <FormControl id="venueEmail" isRequired="true">
+              <FormLabel>Email Address</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter Email"
+                value={venueEmail}
+                bg="white"
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueEmail: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+            <Box mx={2} />
+
+            <FormControl id="venueWebsite">
+              <FormLabel>Venue Website</FormLabel>
+              <Input
+                type="text"
+                placeholder="Venue Website"
+                bg="white"
+                value={venueWebsite}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueWebsite: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+          </Flex>
+
+          <Box my={4} />
+
+          <Flex w="full" align="center">
+            <FormControl id="venueDescription">
+              <FormLabel>Venue Description</FormLabel>
+              <Textarea
+                placeholder="Enter Venue Description"
+                bg="white"
+                value={venueDescription}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueDescription: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+          </Flex>
+
+          <Box my={4} />
+
+          <Flex w="full" align="center">
+            <FormControl id="venueMinPrice" isRequired="true">
+              <FormLabel>Venue Min Price</FormLabel>
+              <Input
+                type="text"
+                placeholder="0"
+                bg="white"
+                value={venueMinPrice}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueMinPrice: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+            <Box mx={2} />
+
+            <FormControl id="venueMaxPrice" isRequired="true">
+              <FormLabel>Venue Max Price</FormLabel>
+              <Input
+                type="text"
+                placeholder="0"
+                bg="white"
+                value={venueMaxPrice}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueMaxPrice: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+
+            <Box mx={2} />
+
+            <FormControl id="venueCapacity" isRequired="true">
+              <FormLabel>Venue Capacity</FormLabel>
+              <Input
+                type="text"
+                placeholder="0"
+                bg="white"
+                value={venueCapacity}
+                onChange={(e) =>
+                  setVenueDetails({
+                    ...venueDetails,
+                    venueCapacity: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+          </Flex>
+
+          <Box my={4} />
+
+          <Flex w="full" align="center" justify="left">
+            <SimpleGrid w="full" columns={[1, 1, 1, 1]}>
+              <FormControl id="venueType" isRequired="true">
+                <FormLabel>Select Facility</FormLabel>
+
+                <ReactSelect
+                  closeMenuOnSelect={false}
+                  components={animatedComponents}
+                  isMulti
+                  options={FACILITY_CONTENT}
+                  value={selectedFacilities}
+                  styles={colourStyles}
+                  onChange={(items) =>
+                    setVenueDetails({
+                      ...venueDetails,
+                      selectedFacilities: items,
+                    })
+                  }
+                />
+              </FormControl>
+            </SimpleGrid>
+          </Flex>
+
+          <Flex p={0} mt={3}>
+            {!isUpdate ? (
+              <DropZoneImage
+                acceptedFiles={acceptedFiles}
+                setAcceptedFiles={setAcceptedFiles}
+              />
+            ) : (
+              images.length > 0 &&
+              id && (
+                <PictureWall
+                  images={images}
+                  id={id}
+                  setImageChange={setImageChange}
+                />
+              )
+            )}
+          </Flex>
+
+          {/*  */}
+
+          <Box my={4} />
+          <Flex w="full" align="center" justify="center">
+            <Button
+              borderRadius={8}
+              isLoading={loading}
+              w="100%"
+              h="56px"
+              p={4}
+              bg="brand.600"
+              color="white"
+              onClick={handleSubmit}
+              _hover={{ bg: "brand.800" }}
+            >
+              Submit
+            </Button>
+          </Flex>
+          {messages && (
+            <Text
+              mt={3}
+              color={color}
+              fontWeight="bold"
+              fontSize="m"
+              textAlign="center"
+            >
+              *{messages}
+            </Text>
+          )}
+        </Box>
 
         <Box my={4} />
-        <Flex w="full" align="center" justify="center">
-          <Button
-            borderRadius={8}
-            w="100%"
-            h="56px"
-            p={4}
-            bg="brand.600"
-            color="white"
-            onClick={handleSubmit}
-            _hover={{ bg: "brand.800" }}
-          >
-            Submit
-          </Button>
-        </Flex>
-      </Box>
 
-      <Box my={4} />
+        <Footer />
 
-      <Footer />
-
-      {/*  */}
+        {/*  */}
+      </Page>
     </Flex>
   );
 };

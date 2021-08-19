@@ -8,6 +8,7 @@ import {
 } from "react-icons/all";
 import LoginModal from "./LoginModal";
 import JoinModal from "./JoinModal";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Store } from "../services/store";
 import { clearUser } from "../redux/user";
@@ -15,7 +16,7 @@ import { clearUser } from "../redux/user";
 const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
-
+  const history = useHistory();
   const handleLogin = () => {
     setIsLoginOpen(true);
   };
@@ -23,6 +24,7 @@ const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
   const handleLogout = () => {
     dispatch(clearUser());
     Store.logoutAndReset();
+    history.push("/");
   };
 
   const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const Header = ({ isJoinOpen, setIsJoinOpen, role }) => {
           mx={4}
           fontSize={{ base: 18, md: 24 }}
           fontWeight="bold"
+          as="i"
         >
           BookNEvent
         </Button>

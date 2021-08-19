@@ -3,7 +3,6 @@ import moment from "moment";
 import React from "react";
 
 const ActiveBookings = ({ bookings, acceptBooking, deleteBooking }) => {
-  console.log(bookings, "book");
   const formatDate = (date) => {
     var dateString = date;
     var dateObj = new Date(dateString);

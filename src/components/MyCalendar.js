@@ -16,6 +16,7 @@ import { baseurl } from "../utility/constants/baseurl";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { service } from "../services/services";
+import MessageModal from "./MessageModal";
 
 const localizer = momentLocalizer(moment);
 
@@ -23,11 +24,16 @@ const MyCalendar = ({ venue }) => {
   const [events, setEvents] = useState([]);
   const [showBookModal, setShowBookModal] = useState(false);
   const [calenderObj, setCalenderObj] = useState({});
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const [message, setmessage] = useState("");
   const currentUser = useSelector((state) => state.user.currentUser);
   const handleSelect = async ({ start, end }) => {
+    console.log(currentUser, "curr");
     if (!currentUser) {
       setShowBookModal(false);
-      alert("Please Login to book a venue");
+      setIsMessageOpen(true);
+      setmessage("Please Login to book a venue");
+      // alert("Please Login to book a venue");
       return;
     }
 
@@ -107,18 +113,31 @@ const MyCalendar = ({ venue }) => {
         endAccessor="end"
         style={{ height: 600, width: 600, fontSize: 14 }}
         views={["month"]}
-        onSelectEvent={(event) => alert(event.title)}
+        onSelectEvent={(event) => {
+          setIsMessageOpen(true);
+          setmessage(event.title);
+        }}
         onSelectSlot={({ start, end }) => {
           setCalenderObj({ start, end });
-
-          if (handleCheckBooked({ start, end })) {
+          if (!currentUser) {
+            setShowBookModal(false);
+            setIsMessageOpen(true);
+            setmessage("Please Login to book a venue");
+          } else if (handleCheckBooked({ start, end })) {
             setShowBookModal(!showBookModal);
           } else {
-            alert(
+            setIsMessageOpen(true);
+            setmessage(
               "Date is Already Booked, or has passed. Kindly Select a Valid Date"
             );
           }
         }}
+      />
+      <MessageModal
+        isMessageOpen={isMessageOpen}
+        setIsMessageOpen={setIsMessageOpen}
+        message={message}
+        title="Venue Booking"
       />
 
       <Modal

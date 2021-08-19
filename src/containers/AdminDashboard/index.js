@@ -3,10 +3,14 @@ import React, { useEffect, useState } from "react";
 import VendorTable from "./VendorTable";
 import ColumnFilter from "./ColumnFilter";
 import { service } from "../../services/services";
+import Page from "react-page-loading";
 
 import DatePicker from "react-datepicker";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+
+import "./index.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AdminDashboard = () => {
   const history = useHistory();
@@ -20,9 +24,17 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     // Check if user aint admin
+    if (!currentUser) {
+      history.push("/");
+    }
     if (currentUser && currentUser.role !== "admin") {
       // history.push("/");
       // UNCOMMENT THIS TALALA TO ONLY LET ROLE ADMIN GO HERE
+      if (currentUser.role === "vendor") {
+        history.push("/vendorDashboard");
+      } else {
+        history.push("/");
+      }
     }
 
     const getVenues = async () => {
@@ -96,8 +108,6 @@ const AdminDashboard = () => {
 
         return venue;
       });
-
-      console.log(tempVenues);
 
       setVenues(tempVenues);
       setLoading2(false);
@@ -214,7 +224,7 @@ const AdminDashboard = () => {
     () => [
       {
         Header: "Venue",
-        accessor: "venueDescription",
+        accessor: "venueName",
         Filter: ColumnFilter,
       },
       {
@@ -236,7 +246,7 @@ const AdminDashboard = () => {
         Cell: (props) => {
           const fromActiveDate = venues[props.row.id]?.fromActiveDate
             ? new Date(venues[props.row.id]?.fromActiveDate)
-            : new Date();
+            : null;
 
           return (
             <DatePicker
@@ -255,11 +265,15 @@ const AdminDashboard = () => {
         Cell: (props) => {
           const toActiveDate = venues[props.row.id]?.toActiveDate
             ? new Date(venues[props.row.id]?.toActiveDate)
-            : new Date();
+            : null;
 
           return (
             <DatePicker
               selected={toActiveDate}
+              name="Dasd"
+              title="Dasd"
+              placeholderText="Please select date"
+              styles={{ backgroundColor: "red" }}
               onChange={(date) => handleToDateChange(props.row.id, date)}
             />
           );
@@ -271,57 +285,59 @@ const AdminDashboard = () => {
 
   return (
     <Flex w="full" h="full" direction="column">
-      <Box my={4} />
+      <Page loader={"bar"} color={"#E62878"} size={12}>
+        <Box my={4} />
 
-      <Box mx={{ base: 4, md: 16 }}>
-        <SimpleGrid columns={{ base: 1, lg: 2 }}>
-          <Box boxShadow="sm" p={4} mx={2}>
+        <Box mx={{ base: 4, md: 16 }}>
+          <SimpleGrid columns={{ base: 1, lg: 2 }}>
+            <Box boxShadow="sm" p={4} mx={2}>
+              <Text fontSize={18} fontWeight="bold">
+                Vendors Table
+              </Text>
+              <Box my={2} />
+              {!loading && (
+                <VendorTable
+                  colorScheme="facebook"
+                  data={users}
+                  columns={columnUsers}
+                />
+              )}
+            </Box>
+
+            <Box boxShadow="sm" p={4} mx={2}>
+              <Text fontSize={18} fontWeight="bold">
+                Users Table
+              </Text>
+              <Box my={2} />
+              {!loading && users.length > 0 && (
+                <VendorTable
+                  colorScheme="facebook"
+                  size="md"
+                  data={vendors}
+                  columns={columnVendors}
+                />
+              )}
+            </Box>
+          </SimpleGrid>
+
+          {/* <Box my={4} w="full" bg="brand.600" height="2px" borderRadius={16} /> */}
+
+          <Box my={4} p={4} mx={2}>
             <Text fontSize={18} fontWeight="bold">
-              Vendors Table
+              Venues Table
             </Text>
-            <Box my={2} />
+
             {!loading && (
               <VendorTable
                 colorScheme="facebook"
-                data={users}
-                columns={columnUsers}
-              />
-            )}
-          </Box>
-
-          <Box boxShadow="sm" p={4} mx={2}>
-            <Text fontSize={18} fontWeight="bold">
-              Users Table
-            </Text>
-            <Box my={2} />
-            {!loading && users.length > 0 && (
-              <VendorTable
-                colorScheme="facebook"
                 size="md"
-                data={vendors}
-                columns={columnVendors}
+                data={venues}
+                columns={venueColumns}
               />
             )}
           </Box>
-        </SimpleGrid>
-
-        {/* <Box my={4} w="full" bg="brand.600" height="2px" borderRadius={16} /> */}
-
-        <Box my={4} p={4} mx={2}>
-          <Text fontSize={18} fontWeight="bold">
-            Venues Table
-          </Text>
-
-          {!loading && (
-            <VendorTable
-              colorScheme="facebook"
-              size="md"
-              data={venues}
-              columns={venueColumns}
-            />
-          )}
         </Box>
-      </Box>
+      </Page>
     </Flex>
   );
 };

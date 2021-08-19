@@ -19,12 +19,14 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/all";
 import React, { useState } from "react";
 import { service } from "../services/services";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Store } from "../services/store";
 import { setUser as setUserr } from "../redux/user";
 
 const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
   const [errEmail, setErrEmail] = useState("");
   const [errPassword, setErrPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
@@ -32,6 +34,9 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
     password: "",
   });
   const dispatch = useDispatch();
+  const history = useHistory();
+  const initialRef = React.useRef();
+  const finalRef = React.useRef();
 
   const { email, password } = user;
 
@@ -55,31 +60,47 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
   };
   const handleLogin = () => {
     if (handleValidation()) {
+      setLoading(true);
       service
         .login({ email, password })
         .then(({ data }) => {
+          setLoading(false);
           if (data.success) {
             Store.setUserToken(data.token);
             Store.setUser(JSON.stringify(data.user));
-            console.log(data.user, "datatatata");
+
+            const user = data.user;
             dispatch(setUserr(data.user));
+            setError("");
             setIsLoginOpen(false);
             setUser({
               email: "",
               password: "",
             });
+            if (user.role === "vendor") {
+              history.push("/vendorDashboard");
+            } else if (user.role === "admin") {
+              history.push("/adminDashboard");
+            } else {
+              history.push("/");
+            }
             setError("");
           } else {
             setError(data.error);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
     }
   };
 
   return (
     <Modal
       isOpen={isLoginOpen}
+      initialFocusRef={initialRef}
+      finalFocusRef={finalRef}
       onClose={() => {
         setError("");
         setUser({
@@ -97,6 +118,7 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
           <FormControl id="email">
             <FormLabel>Email address</FormLabel>
             <Input
+              ref={initialRef}
               type="email"
               onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
@@ -129,16 +151,29 @@ const LoginModal = ({ isLoginOpen, setIsLoginOpen }) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button mr={3} px={8} onClick={() => setIsLoginOpen(false)}>
+          <Button
+            mr={3}
+            px={8}
+            onClick={() => {
+              setError("");
+              setUser({
+                email: "",
+                password: "",
+              });
+              setIsLoginOpen(false);
+            }}
+          >
             Cancel
           </Button>
           <Button
             variant="ghost"
             bg="brand.600"
+            isLoading={loading}
             _hover={{ backgroundColor: "brand.800" }}
             color="white"
             px={8}
             onClick={handleLogin}
+            ref={finalRef}
           >
             Login
           </Button>

@@ -3,6 +3,9 @@ export const service = {
   login: (data) => {
     return api.invoke("POST", `auth/login`, data);
   },
+  getMe: () => {
+    return api.invoke("GET", `auth/me`);
+  },
   register: (data) => {
     return api.invoke("POST", `auth/register`, data);
   },
@@ -22,7 +25,6 @@ export const service = {
     return api.invoke("POST", `venue/image/${id}`, data);
   },
   removeImageToVenue: (id, data) => {
-    console.log(data);
     return api.invoke("PUT", `venue/image/${id}`, data);
   },
   getVenue: (id) => {
@@ -60,7 +62,6 @@ export const service = {
   },
 
   setVenueDates: (id, postObj) => {
-    console.log(postObj);
     return api.invoke("PUT", `admin/venues/${id}`, postObj);
   },
 };

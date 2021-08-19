@@ -61,7 +61,6 @@ class PicturesWall extends React.Component {
       .addImageToVenue(this.state.id, formData)
       .then(({ data }) => {
         if (data.success) {
-          console.log(data, "ddksadnsk");
           this.setState({
             images: data.data.images,
           });
