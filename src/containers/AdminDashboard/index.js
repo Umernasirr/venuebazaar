@@ -4,9 +4,9 @@ import VendorTable from "./VendorTable";
 import ColumnFilter from "./ColumnFilter";
 import { service } from "../../services/services";
 import Page from "react-page-loading";
-
 import DatePicker from "react-datepicker";
 import { useSelector } from "react-redux";
+
 import { useHistory } from "react-router";
 
 import "./index.css";
@@ -74,21 +74,36 @@ const AdminDashboard = () => {
   }, [currentUser]);
 
   const handleUserChangeActive = async (rowId, value) => {
-    const id = users[rowId]._id;
-
-    const postObj = {
-      accountActive: value,
-    };
-    await service.setAccountAvailability(id, postObj);
+    if (users[rowId]) {
+      const id = users[rowId]._id;
+      let accountActive;
+      if (value === "active") {
+        accountActive = false;
+      } else {
+        accountActive = true;
+      }
+      const postObj = {
+        accountActive: accountActive,
+      };
+      await service.setAccountAvailability(id, postObj);
+    }
   };
 
   const handleVendorChangeActive = async (rowId, value) => {
-    const id = vendors[rowId]._id;
+    if (vendors[rowId]) {
+      const id = vendors[rowId]._id;
 
-    const postObj = {
-      accountActive: value,
-    };
-    await service.setAccountAvailability(id, postObj);
+      let accountActive;
+      if (value === "active") {
+        accountActive = false;
+      } else {
+        accountActive = true;
+      }
+      const postObj = {
+        accountActive: accountActive,
+      };
+      await service.setAccountAvailability(id, postObj);
+    }
   };
 
   const handleToDateChange = async (rowIdx, date) => {
